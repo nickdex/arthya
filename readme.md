@@ -8,6 +8,6 @@ The Polylith documentation can be found here:
 
 You can also get in touch with the Polylith Team on [Slack](https://clojurians.slack.com/archives/C013B7MQHJQ).
 
-<h1>arthya</h1>
+<h1>Arthya</h1>
 
 <p>Add your workspace documentation here...</p>
