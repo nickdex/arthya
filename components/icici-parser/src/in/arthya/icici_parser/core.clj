@@ -56,22 +56,7 @@
             "Balance (INR )")
           row))
 
-(defn ->hledger-record [transaction]
-  (let [{:keys [date payee tags memo postings]} transaction
-        tag-line (when tags (str " ; "
-                                 (str/join ", " tags)))]
-    (->>
-     (concat
-      [(str date " " payee tag-line
-            (when memo (str "\n    ; "  memo)))]
-      (map (fn [{:keys [account comment amount]}]
-             (str "    " account "  " amount " " "INR"
-                  (when comment
-                    (str "\n        ; " comment))))
-           postings))
-     (str/join "\n"))))
-
-(defn- clean-postings [records]
+(defn clean-postings [records]
   (->> records
        (drop 13)
        (drop-last 29)
@@ -79,7 +64,7 @@
        merge-paired-sequences
        (map ->posting)))
 
-(defn- ->transaction
+(defn ->transaction
   [{:keys [date memo amount]}]
   {:date date
    :tag ["Source:ICICI"]
@@ -87,9 +72,8 @@
                :amount amount
                :account "Assets:Checking:ICICI"}]})
 
-(defn ->hledger
+(defn parse
   [records]
-  (->>
-   (clean-postings records)
-   (map ->transaction)
-   (map ->hledger-record)))
+ (->> records
+      clean-postings
+      (map ->transaction)))

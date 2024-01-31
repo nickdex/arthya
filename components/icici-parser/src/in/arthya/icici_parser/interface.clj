@@ -2,7 +2,7 @@
  "Parser to consume statements from ICICI bank accounts"
   (:require [in.arthya.icici-parser.core :as core]))
 
-(defn ->hledger
-  "Converts transaction records from list of lists to hledger notation"
+(defn parse
+  "Converts transaction records from bank statement to common transaction structure"
   [records]
-  (core/->hledger records))
+  (core/parse records))

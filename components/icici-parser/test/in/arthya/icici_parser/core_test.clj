@@ -44,14 +44,3 @@
             "Withdrawal Amount (INR )" "2500.00",
             "Deposit Amount (INR )" "0.0",
             "Balance (INR )" "586644.72"}))))
-
-(deftest hledger-notation
-  (is (= (core/->hledger-record
-          {:date "2021/12/16"
-           :payee "Fruit Vendor"
-           :memo "Some memo"
-           :tags ["T:A"]
-           :postings [{:account "Expense:Food"
-                       :amount "-10"
-                       :comment "Vada pav"}]})
-         "2021/12/16 Fruit Vendor ; T:A\n    ; Some memo\n    Expense:Food  -10 INR\n        ; Vada pav")))

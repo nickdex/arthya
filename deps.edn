@@ -3,13 +3,15 @@
                   :extra-deps {; Components
                                poly/icici-parser {:local/root "components/icici-parser"}
                                poly/file-reader {:local/root "components/file-reader"}
+                               poly/hledger {:local/root "components/hledger"}
                                org.clojure/clojure {:mvn/version "1.11.1"}
 
                                ; Development Deps
                                djblue/portal {:mvn/version "0.51.1"}}}
 
             :test {:extra-paths ["components/icici-parser/test"
-                                 "components/file-reader/test"]}
+                                 "components/file-reader/test"
+                                 "components/hledger/test"]}
 
             :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]
                    :extra-deps {polylith/clj-poly {:mvn/version "0.2.18"}}}}}
