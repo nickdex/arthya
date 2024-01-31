@@ -3,6 +3,6 @@
   (:require [in.arthya.icici-parser.core :as core]))
 
 (defn ->hledger
-  "Converts a CSV record to hledger notation"
-  [record]
-  (core/->hledger record))
+  "Converts transaction records from list of lists to hledger notation"
+  [records]
+  (core/->hledger records))
