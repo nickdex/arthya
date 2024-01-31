@@ -1,9 +1,11 @@
 {:aliases  {:dev {:extra-paths ["development/src"]
 
                   :extra-deps {poly/icici-parser {:local/root "components/icici-parser"}
+                               poly/file-reader {:local/root "components/file-reader"}
                                org.clojure/clojure {:mvn/version "1.11.1"}}}
 
-            :test {:extra-paths ["components/icici-parser/test"]}
+            :test {:extra-paths ["components/icici-parser/test"
+                                 "components/file-reader/test"]}
 
             :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]
                    :extra-deps {polylith/clj-poly {:mvn/version "0.2.18"}}}}}
