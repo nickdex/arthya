@@ -1,8 +1,12 @@
 {:aliases  {:dev {:extra-paths ["development/src"]
 
-                  :extra-deps {poly/icici-parser {:local/root "components/icici-parser"}
+                  :extra-deps {; Components
+                               poly/icici-parser {:local/root "components/icici-parser"}
                                poly/file-reader {:local/root "components/file-reader"}
-                               org.clojure/clojure {:mvn/version "1.11.1"}}}
+                               org.clojure/clojure {:mvn/version "1.11.1"}
+
+                               ; Development Deps
+                               djblue/portal {:mvn/version "0.51.1"}}}
 
             :test {:extra-paths ["components/icici-parser/test"
                                  "components/file-reader/test"]}
