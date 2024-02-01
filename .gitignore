@@ -33,7 +33,10 @@ projects/**/pom.xml
 .lsp/.cache
 
 # clj-kondo
-.clj-kondo/.cache
+.clj-kondo/
+
+# Portal
+.portal/
 
 # Calva VS Code Extension
 .calva/output-window/output.calva-repl
