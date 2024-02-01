@@ -29,15 +29,18 @@
       :else  ; Otherwise, just move the head to the result
       (recur (rest s) (conj result (first s))))))
 
-(defn ->posting [row]
+(defn ->posting
+  "Converts statement map to transaction row map containing date, amount and memo. Can contain additional information as required"
+  [row]
   (let [date (fix-date (get row "Transaction Date"))
         serial (get row "S No.")
         memo (get row "Transaction Remarks")
         debit (get row "Withdrawal Amount (INR )")
         credit (get row "Deposit Amount (INR )")
-        amount (if (= "0.0" debit)
+        amount (if (or (= 0 debit) (= 0.0 debit))
                  credit
-                 (str "-" debit))]
+                 (* -1 debit))]
+
     {:date date
      :memo memo
      :amount amount
