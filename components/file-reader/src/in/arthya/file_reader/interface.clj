@@ -1,7 +1,8 @@
-(ns in.arthya.file-reader.interface 
+(ns in.arthya.file-reader.interface
   (:require [in.arthya.file-reader.core :as core]))
 
 (defn read-excel
-  "Reads excel file and converts records to clojure list of lists"
-  [file-path]
-  (core/read-excel file-path))
+  "Reads excel file and converts records to clojure list of lists. Take optional additional parameters to trim rows from reader"
+  ([file-path] (read-excel file-path nil))
+  ([file-path opts]
+   (core/read-excel file-path opts)))

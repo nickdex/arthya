@@ -68,4 +68,31 @@
            "Withdrawal Amount (INR )" 0.0,
            "Deposit Amount (INR )" 20000.0,
            "Balance (INR )" 20705.94})
-         {:date "2024/01/27", :memo "MMT/IMPS/402711565960/ReqPay/Mr  NIKHIL/State Bank", :amount 20000.0, :sno "33"}))) 
+         {:date "2024/01/27", :memo "MMT/IMPS/402711565960/ReqPay/Mr  NIKHIL/State Bank", :amount 20000.0, :sno "33"})))
+
+(deftest clean-postings-test
+  (is (= (core/clean-postings
+          ['("34"
+             "27/01/2024"
+             "27/01/2024"
+             "-"
+             "UPI/439344021256/Deposit 1/9131161006@payt/State Bank Of I/ACD01HN4QG9TS2X69VSC"
+             15000.0
+             0.0
+             5705.94)
+           '("35"
+             "27/01/2024"
+             "27/01/2024"
+             "-"
+             "UPI/402784415982/bananas/q692910553@ybl/Yes Bank Ltd/ACD01HN53S95N29BXYZ70W0XRY"
+             30.0
+             0.0
+             5675.94)])
+         '({:date "2024/01/27",
+            :memo "UPI/402784415982/bananas/q692910553@ybl/Yes Bank Ltd/ACD01HN53S95N29BXYZ70W0XRY",
+            :amount -30.0,
+            :sno "35"}
+           {:date "2024/01/27",
+            :memo "UPI/439344021256/Deposit 1/9131161006@payt/State Bank Of I/ACD01HN4QG9TS2X69VSC",
+            :amount -15000.0,
+            :sno "34"}))))

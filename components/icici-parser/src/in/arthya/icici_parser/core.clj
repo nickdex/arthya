@@ -58,13 +58,13 @@
             "Balance (INR )")
           row))
 
-(defn clean-postings [records]
-  (->> records
-       (drop 13)
-       (drop-last 29)
-       (map ->statement-map)
-       merge-paired-sequences
-       (map ->posting)))
+(defn clean-postings
+  "Cleans incoming statement rows to generate records for further processing based on logic. Eg inferring other fields"
+  ([records]
+   (->> records
+        (map ->statement-map)
+        merge-paired-sequences
+        (map ->posting))))
 
 (defn ->transaction
   [{:keys [date memo amount]}]

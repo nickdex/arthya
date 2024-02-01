@@ -29,6 +29,19 @@
            iterator-seq
            (map row-values)))))
 
+(defn trim-rows
+  "Removes rows from file reader which are not transactions"
+  ([rows] (trim-rows rows nil))
+  ([rows
+    {:keys [skip-start terminate-pred]
+     :or {skip-start 0
+          terminate-pred identity}}]
+   (->> rows
+        (drop skip-start)
+        (take-while terminate-pred))))
+
 (defn read-excel
-  [file-path]
-  (read-excel-file file-path))
+  [file-path opts]
+  (-> file-path
+      read-excel-file
+      (trim-rows opts)))

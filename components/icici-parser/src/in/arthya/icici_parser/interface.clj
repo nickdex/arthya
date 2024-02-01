@@ -3,6 +3,6 @@
   (:require [in.arthya.icici-parser.core :as core]))
 
 (defn parse
-  "Converts transaction records from bank statement to common transaction structure"
+  "Converts transaction records from bank statement to common transaction structure. Expects list of list"
   [records]
   (core/parse records))
