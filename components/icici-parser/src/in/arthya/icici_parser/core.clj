@@ -1,6 +1,5 @@
 (ns in.arthya.icici-parser.core
-  (:require [clj-time.format :as f]
-            [clojure.string :as str]))
+  (:require [clj-time.format :as f]))
 
 (def input-format (f/formatter "dd/MM/yyyy"))
 (def output-format (f/formatter "yyyy/MM/dd"))
@@ -77,6 +76,6 @@
 
 (defn parse
   [records]
- (->> records
-      clean-postings
-      (map ->transaction)))
+  (->> records
+       clean-postings
+       (map ->transaction)))

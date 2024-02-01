@@ -4,6 +4,7 @@
                                poly/icici-parser {:local/root "components/icici-parser"}
                                poly/file-reader {:local/root "components/file-reader"}
                                poly/hledger {:local/root "components/hledger"}
+
                                org.clojure/clojure {:mvn/version "1.11.1"}
 
                                ; Development Deps
