@@ -3,6 +3,7 @@
                   :extra-deps {; Components
                                poly/icici-parser {:local/root "components/icici-parser"}
                                poly/file-reader {:local/root "components/file-reader"}
+                               poly/payee {:local/root "components/payee"}
                                poly/hledger {:local/root "components/hledger"}
 
                                org.clojure/clojure {:mvn/version "1.11.1"}
@@ -12,6 +13,7 @@
 
             :test {:extra-paths ["components/icici-parser/test"
                                  "components/file-reader/test"
+                                 "components/payee/test"
                                  "components/hledger/test"]}
 
             :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]
