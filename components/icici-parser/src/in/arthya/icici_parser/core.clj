@@ -70,8 +70,8 @@
   [{:keys [date memo amount]}]
   {:date date
    :tag ["Source:ICICI"]
-   :postings [{:comment memo
-               :amount amount
+   :comment memo
+   :postings [{:amount amount
                :account "Assets:Checking:ICICI"}]})
 
 (defn parse
