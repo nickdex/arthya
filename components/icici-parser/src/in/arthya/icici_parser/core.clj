@@ -66,16 +66,6 @@
         merge-paired-sequences
         (map ->posting))))
 
-(defn ->transaction
-  [{:keys [date memo amount]}]
-  {:date date
-   :tag ["Source:ICICI"]
-   :comment memo
-   :postings [{:amount amount
-               :account "Assets:Checking:ICICI"}]})
-
 (defn parse
   [records]
-  (->> records
-       clean-postings
-       (map ->transaction)))
+  (clean-postings records))

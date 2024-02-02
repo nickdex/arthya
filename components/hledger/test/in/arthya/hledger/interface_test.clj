@@ -6,9 +6,8 @@
   (is (= (hledger/->hledger-record
           {:date "2021/12/16"
            :payee "Fruit Vendor"
-           :memo "Some memo"
+           :memo "Vada pav"
            :tags ["T:A"]
-           :postings [{:account "Expense:Food"
-                       :amount "-10"
-                       :comment "Vada pav"}]})
-         "2021/12/16 Fruit Vendor ; T:A\n    ; Some memo\n    Expense:Food  -10 INR\n        ; Vada pav")))
+           :account "Expense:Food"
+           :amount "-10"})
+         "2021/12/16 Fruit Vendor ; T:A\n    ; Vada pav\n    Expense:Food  -10 INR")))
