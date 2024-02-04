@@ -1,6 +1,7 @@
 (ns in.arthya.file-reader.core
   (:import [java.io FileInputStream]
-           [org.apache.poi.ss.usermodel CellType WorkbookFactory]))
+           [org.apache.poi.ss.usermodel CellType WorkbookFactory])
+  (:require [meta-csv.core :as csv]))
 
 (defn cell-value [cell]
   (cond
@@ -45,3 +46,9 @@
   (-> file-path
       read-excel-file
       (trim-rows opts)))
+
+(defn read-csv
+  [file-path opts]
+  (->> file-path
+       csv/read-csv
+       (map #(select-keys % (:columns opts)))))
