@@ -38,7 +38,6 @@
   (let [unit-price (get transaction "Last recorded NAV")
         unit-name (commodity-name (get transaction "Scheme Name"))
         fund (get transaction "Fund Name")
-        status (get transaction "Status")
         date  (-> transaction
                   (get "Date")
                   (str/split #"\s")
@@ -47,10 +46,10 @@
         date (format-date (parse-date (str/replace date #"Sep" "Sept")))
         units (get transaction "Unit")]
     {:date date
+     :payee fund
+     :account "Assets:Checking:Demat:ICICI"
+     :commodity unit-name
      :units units
-     :fund fund
-     :unit-name unit-name
-     :status status
      :unit-price unit-price}))
 
 (defn parse
