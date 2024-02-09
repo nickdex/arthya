@@ -15,8 +15,8 @@
 
 (def ^:private csv-file
   (file-reader/read-csv
-    "components/mutual-fund/resources/mutual-fund/8504313962_MFOrderBook.csv"
-    {:columns ["Amount" "Date" "Last recorded NAV" "Unit" "Status" "Fund Name" "Scheme Name"]}))
+   "components/file-reader/resources/file-reader/8504313962_MFOrderBook-Jan2024.csv"
+   {:columns ["Amount" "Date" "Last recorded NAV" "Unit" "Status" "Fund Name" "Scheme Name"]}))
 
 (deftest rows-parsed
   (is (seq? parsed-file-no-opts))
@@ -42,10 +42,9 @@
   (is (= (count csv-file) 92))
   (is (= (first csv-file)
          {"Amount" 5000.0,
-          "Date" "01-DEC-2021 00:00:00",
-          "Last recorded NAV" 82.1817,
-          "Unit" 60.838,
+          "Date" "01-JAN-2024 00:00:00",
+          "Last recorded NAV" 139.1762,
+          "Unit" 35.924,
           "Status" "Executed",
           "Fund Name" "NIPPON INDIA MUTUAL FUND",
-          "Scheme Name"
-          "Nippon India Small Cap Fund - Growth Plan - Growth Option"})))
+          "Scheme Name" "Nippon India Small Cap Fund - Growth Plan - Growth Option"})))
