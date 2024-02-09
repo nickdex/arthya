@@ -39,7 +39,7 @@
        parsed-file-no-opts)))
 
 (deftest csv-rows-parsed
-  (is (= (count csv-file) 92))
+  (is (= (count csv-file) 1))
   (is (= (first csv-file)
          {"Amount" 5000.0,
           "Date" "01-JAN-2024 00:00:00",

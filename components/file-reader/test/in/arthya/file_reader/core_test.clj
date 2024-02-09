@@ -46,6 +46,7 @@
 
 (deftest trim-terminate-pred-test
   (is (= (core/trim-rows
+          {:terminate-pred #(not (util/contains-partial? % "legends"))}
           '('(nil nil nil)
             '("34"
               "27/01/2024"
@@ -64,8 +65,7 @@
               0.0
               5675.94)
             '("Legends used in" "something")
-            '("Legends used in" "something"))
-          {:terminate-pred #(not (util/contains-partial? % "legends"))})
+            '("Legends used in" "something")))
          '('(nil nil nil)
            '("34"
              "27/01/2024"
@@ -86,6 +86,7 @@
 
 (deftest trim-skip-start-test
   (is (= (core/trim-rows
+          {:skip-start 1}
           '('(nil nil nil)
             '("34"
               "27/01/2024"
@@ -104,8 +105,7 @@
               0.0
               5675.94)
             '("Legends used in" "something")
-            '("Legends used in" "something"))
-          {:skip-start 1})
+            '("Legends used in" "something")))
          '('("34"
              "27/01/2024"
              "27/01/2024"

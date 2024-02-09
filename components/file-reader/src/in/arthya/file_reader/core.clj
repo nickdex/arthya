@@ -32,20 +32,19 @@
 
 (defn trim-rows
   "Removes rows from file reader which are not transactions"
-  ([rows] (trim-rows rows nil))
-  ([rows
-    {:keys [skip-start terminate-pred]
+  ([rows] (trim-rows nil rows))
+  ([{:keys [skip-start terminate-pred]
      :or {skip-start 0
-          terminate-pred identity}}]
+          terminate-pred identity}}
+    rows]
    (->> rows
         (drop skip-start)
         (take-while terminate-pred))))
 
 (defn read-excel
   [file-path opts]
-  (-> file-path
-      read-excel-file
-      (trim-rows opts)))
+  (->> (read-excel-file file-path)
+       (trim-rows opts)))
 
 (defn read-csv
   [file-path opts]
