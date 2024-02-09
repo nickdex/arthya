@@ -12,6 +12,6 @@
 
   ### Optional Parameters
   - :columns: vector of column names"
-  ([file-path] (read-excel file-path nil))
+  ([file-path] (read-csv file-path nil))
   ([file-path opts]
    (core/read-csv file-path opts)))
