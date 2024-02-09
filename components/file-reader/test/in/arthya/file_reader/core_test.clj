@@ -86,7 +86,7 @@
 
 (deftest trim-skip-start-test
   (is (= (core/trim-rows
-          {:skip-start 1}
+          {:skip 1}
           '('(nil nil nil)
             '("34"
               "27/01/2024"

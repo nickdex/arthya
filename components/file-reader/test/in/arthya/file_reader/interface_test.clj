@@ -10,7 +10,7 @@
 (def ^:private trimmed-file
   (file-reader/read-excel
    "components/file-reader/resources/file-reader/OpTransactionHistory19-11-2023.xls"
-   {:skip-start 13
+   {:skip 13
     :terminate-pred #(not (util/contains-partial? % "legends"))}))
 
 (def ^:private csv-file
