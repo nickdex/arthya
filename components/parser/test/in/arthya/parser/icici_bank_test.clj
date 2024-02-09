@@ -1,4 +1,4 @@
-(ns in.arthya.icici-parser.core-test
+(ns in.arthya.parser.icici-bank-test
   (:require [clojure.test :refer [deftest is]]
             [in.arthya.icici-parser.core :as core]))
 

@@ -1,7 +1,7 @@
 {:aliases  {:dev {:extra-paths ["development/src"]
 
                   :extra-deps {; Components
-                               poly/icici-parser {:local/root "components/icici-parser"}
+                               poly/parser {:local/root "components/parser"}
                                poly/mutual-fund {:local/root "components/mutual-fund"}
                                poly/file-reader {:local/root "components/file-reader"}
                                poly/payee {:local/root "components/payee"}
@@ -13,7 +13,7 @@
                                ; Development Deps
                                djblue/portal {:mvn/version "0.51.1"}}}
 
-            :test {:extra-paths ["components/icici-parser/test"
+            :test {:extra-paths ["components/parser/test"
                                  "components/mutual-fund/test"
                                  "components/file-reader/test"
                                  "components/payee/test"

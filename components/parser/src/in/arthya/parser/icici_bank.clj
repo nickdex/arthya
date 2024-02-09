@@ -1,4 +1,4 @@
-(ns in.arthya.icici-parser.core
+(ns in.arthya.parser.icici-bank
   (:require [clj-time.format :as f]))
 
 (def input-format (f/formatter "dd/MM/yyyy"))
