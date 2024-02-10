@@ -57,6 +57,7 @@
            "Balance (INR )" 4075.94})
          {:date "2024/01/27",
           :memo "UPI/439329851533/2 nights tent/9483182708@ybl/Bank of Baroda/ACD01HN54XZ6AE4700",
+          :account :icici-bank,
           :amount -1600.0,
           :sno "36"}))
   (is (= (core/->posting
@@ -68,7 +69,11 @@
            "Withdrawal Amount (INR )" 0.0,
            "Deposit Amount (INR )" 20000.0,
            "Balance (INR )" 20705.94})
-         {:date "2024/01/27", :memo "MMT/IMPS/402711565960/ReqPay/Mr  NIKHIL/State Bank", :amount 20000.0, :sno "33"})))
+         {:date "2024/01/27"
+          :memo "MMT/IMPS/402711565960/ReqPay/Mr  NIKHIL/State Bank",
+          :account :icici-bank,
+          :amount 20000.0
+          :sno "33"})))
 
 (deftest clean-postings-test
   (is (= (core/clean-postings
@@ -90,9 +95,11 @@
              5675.94)])
          '({:date "2024/01/27",
             :memo "UPI/402784415982/bananas/q692910553@ybl/Yes Bank Ltd/ACD01HN53S95N29BXYZ70W0XRY",
+            :account :icici-bank,
             :amount -30.0,
             :sno "35"}
            {:date "2024/01/27",
             :memo "UPI/439344021256/Deposit 1/9131161006@payt/State Bank Of I/ACD01HN4QG9TS2X69VSC",
+            :account :icici-bank,
             :amount -15000.0,
             :sno "34"}))))

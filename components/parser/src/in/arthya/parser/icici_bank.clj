@@ -43,7 +43,7 @@
     {:date date
      :memo memo
      :amount amount
-     :account "Assets:Checking:ICICI"
+     :account :icici-bank
      :sno serial}))
 
 (defn ->statement-map
