@@ -1,5 +1,6 @@
 (ns in.arthya.util.interface
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [in.arthya.util.date :as date]))
 
 (defn includes-any?
   "Return true if any of the strings matches the attribute, false otherwise.
@@ -25,3 +26,12 @@
                     (clojure.string/replace #"\.$" ""))
         parsed (Double/parseDouble cleaned)]
     parsed))
+
+(defn fix-date
+  "Converts any input date string to yyyy/MM/dd
+
+   Options:
+   - :input - Specifies input date format. Defaults to dd/MM/yyyy"
+  ([date-str] (fix-date date-str {:input "dd/MM/yyyy"}))
+  ([date-str opts]
+   (date/fix-date date-str opts)))

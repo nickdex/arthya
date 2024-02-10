@@ -13,3 +13,9 @@
          11211.33))
   (is (= (util/parse-currency-from-string "11,211.33 Cr.")
          11211.33)))
+
+(deftest fix-date-test
+  (is (= (util/fix-date "11/09/2024")
+         "2024/09/11"))
+  (is (= (util/fix-date "11/01/2024")
+         "2024/01/11")))
