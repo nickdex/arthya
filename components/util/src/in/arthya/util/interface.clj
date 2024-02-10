@@ -14,3 +14,14 @@
   "Return true if any of rows partially contains the search string"
   [rows search-str]
   (some #(includes-any? % [search-str]) rows))
+
+(defn parse-currency-from-string
+  "Get currency as double value from string
+
+   Sample - 11,468.63 Dr."
+  [s]
+  (let [cleaned (-> s
+                    (clojure.string/replace #"[^\d.]+" "")
+                    (clojure.string/replace #"\.$" ""))
+        parsed (Double/parseDouble cleaned)]
+    parsed))
