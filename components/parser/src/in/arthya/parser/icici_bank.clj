@@ -1,19 +1,5 @@
 (ns in.arthya.parser.icici-bank
-  (:require [clj-time.format :as f]))
-
-(def input-format (f/formatter "dd/MM/yyyy"))
-(def output-format (f/formatter "yyyy/MM/dd"))
-
-;; Convert the date string into a LocalDate object
-(defn parse-date [date-str]
-  (f/parse input-format date-str))
-
-;; Convert the LocalDate object back into the desired output string format
-(defn format-date [date]
-  (f/unparse output-format date))
-
-(defn fix-date [date-time]
-  (-> date-time parse-date format-date))
+  (:require [in.arthya.util.interface :as util]))
 
 (defn merge-paired-sequences [seq-of-seqs]
   (loop [s seq-of-seqs
@@ -31,7 +17,7 @@
 (defn ->posting
   "Converts statement map to transaction row map containing date, amount and memo. Can contain additional information as required"
   [row]
-  (let [date (fix-date (get row "Transaction Date"))
+  (let [date (util/fix-date (get row "Transaction Date"))
         serial (get row "S No.")
         memo (get row "Transaction Remarks")
         debit (get row "Withdrawal Amount (INR )")
@@ -39,7 +25,6 @@
         amount (if (or (= 0 debit) (= 0.0 debit))
                  credit
                  (* -1 debit))]
-
     {:date date
      :memo memo
      :amount amount
