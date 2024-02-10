@@ -13,10 +13,16 @@
    {:skip 13
     :terminate-pred #(not (util/contains-partial? % "legends"))}))
 
-(def ^:private csv-file
+(def ^:private csv-file-columns
   (file-reader/read-csv
    "components/file-reader/resources/file-reader/test.csv"
    {:columns ["Amount" "Date" "Last recorded NAV" "Unit" "Status" "Fund Name" "Scheme Name"]}))
+
+(def ^:private csv-file
+  (file-reader/read-csv
+   "components/file-reader/resources/file-reader/test2.csv"
+   {:skip 12}))
+
 
 (deftest rows-parsed
   (is (seq? parsed-file-no-opts))
@@ -39,8 +45,22 @@
        parsed-file-no-opts)))
 
 (deftest csv-rows-parsed
-  (is (= (count csv-file) 1))
+  (is (= (count csv-file-columns) 1))
+  (is (= (count csv-file) 3))
   (is (= (first csv-file)
+         {"col0" nil,
+          "col1" nil,
+          "Transaction Date" "01/02/2024",
+          "Details" "INSTANT EMI OFFUS CONVERSION_C",
+          "col4" nil,
+          "col5" nil,
+          "Amount (INR)" "11,211.33 Cr.",
+          "col7" nil,
+          "col8" nil,
+          "Reference Number" 8691532626,
+          "col10" nil,
+          "col11" nil}))
+  (is (= (first csv-file-columns)
          {"Amount" 5000.0,
           "Date" "01-JAN-2024 00:00:00",
           "Last recorded NAV" 139.1762,

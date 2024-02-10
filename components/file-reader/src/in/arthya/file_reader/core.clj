@@ -47,7 +47,8 @@
        (trim-rows opts)))
 
 (defn read-csv
-  [file-path opts]
-  (->> (csv/read-csv file-path
-                     (select-keys opts [:skip]))
-       (map #(select-keys % (:columns opts)))))
+  [file-path {:keys [columns] :as opts}]
+  (->> (csv/read-csv file-path opts)
+       (map #(if columns
+               (select-keys % columns)
+               %))))
