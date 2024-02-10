@@ -1,6 +1,6 @@
 (ns in.arthya.parser.icici-bank-test
   (:require [clojure.test :refer [deftest is]]
-            [in.arthya.icici-parser.core :as core]))
+            [in.arthya.parser.icici-bank :as core]))
 
 (deftest merge-rows-over-two-lines
   (is (= (core/merge-paired-sequences
