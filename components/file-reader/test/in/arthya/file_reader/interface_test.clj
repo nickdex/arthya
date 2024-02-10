@@ -5,17 +5,17 @@
 
 (def ^:private parsed-file-no-opts
   (file-reader/read-excel
-   "components/file-reader/resources/file-reader/OpTransactionHistory19-11-2023.xls"))
+   "components/file-reader/resources/file-reader/test.xls"))
 
 (def ^:private trimmed-file
   (file-reader/read-excel
-   "components/file-reader/resources/file-reader/OpTransactionHistory19-11-2023.xls"
+   "components/file-reader/resources/file-reader/test.xls"
    {:skip 13
     :terminate-pred #(not (util/contains-partial? % "legends"))}))
 
 (def ^:private csv-file
   (file-reader/read-csv
-   "components/file-reader/resources/file-reader/8504313962_MFOrderBook-Jan2024.csv"
+   "components/file-reader/resources/file-reader/test.csv"
    {:columns ["Amount" "Date" "Last recorded NAV" "Unit" "Status" "Fund Name" "Scheme Name"]}))
 
 (deftest rows-parsed
