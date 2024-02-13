@@ -26,7 +26,9 @@
     (->>
      (concat
       [(str date " " payee tag-line
-            (when comment (str "\n    ; "  comment)))]
+            (when comment (str "\n    ; "
+                               (->> (str/split-lines comment)
+                                    (str/join "\n    ; ")))))]
       (map (fn [{:keys [account comment amount
                         units unit-price commodity]}]
              (if commodity

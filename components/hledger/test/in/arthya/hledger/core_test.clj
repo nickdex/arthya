@@ -51,3 +51,13 @@
            :commodity "NIFTY"
            :unit-price 20.5})
          "2021/12/16 NSE ; T:A\n    ; Some memo\n    Assets:Demat  100 NIFTY @ 20.5 INR")))
+
+(deftest hledger-multiline-comment-test
+  (is (= (hledger/->hledger-record
+          {:date "2021/12/16"
+           :payee "Fruit Vendor"
+           :tags ["T:A"]
+           :memo "Some memo\nsecond line"
+           :account "Expense:Food"
+           :amount "-10"})
+         "2021/12/16 Fruit Vendor ; T:A\n    ; Some memo\n    ; second line\n    Expense:Food  -10 INR")))
