@@ -1,6 +1,7 @@
 (ns in.arthya.payee.interface-test
-  (:require [clojure.test :as test :refer :all]
+  (:require [clojure.test :as test :refer [deftest is]]
             [in.arthya.payee.interface :as payee]))
 
-(deftest dummy-test
-  (is (= 1 1)))
+(deftest infer-test
+  (is (= (payee/infer {:memo "8555202565\nCAFE VISHALA, BANGALORE, IN"})
+         "Cafe Vishala")))
