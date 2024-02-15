@@ -25,10 +25,15 @@
     #_(when (some? (first record)))
     record))
 
-(defn read-excel-file [file-path]
+(defn read-excel-file
+  "Reads excel file for given sheet name, or first sheet. Returns list of lists for each row and column.
+  It tries to map string, boolean and numeric data type if possible and returns nil otherwise"
+  [file-path {:keys [sheet-name]}]
   (with-open [inp (FileInputStream. file-path)]
     (let [workbook (WorkbookFactory/create inp)
-          sheet (.getSheetAt workbook 0)]
+          sheet (if sheet-name
+                  (.getSheet workbook sheet-name)
+                  (.getSheetAt workbook 0))]
       (->> sheet
            .rowIterator
            iterator-seq
@@ -47,7 +52,7 @@
 
 (defn read-excel
   [file-path opts]
-  (->> (read-excel-file file-path)
+  (->> (read-excel-file file-path opts)
        (trim-rows opts)))
 
 (defn read-csv
