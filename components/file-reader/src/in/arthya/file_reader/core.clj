@@ -40,8 +40,8 @@
            (map row-values)))))
 
 (defn trim-rows
-  "Removes rows from file reader which are not transactions"
-  ([rows] (trim-rows nil rows))
+  "Removes rows from file reader which are not transactions. No operation if options are not given"
+  ([rows] rows)
   ([{:keys [skip terminate-pred]
      :or {skip 0
           terminate-pred identity}}
