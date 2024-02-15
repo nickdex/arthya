@@ -14,14 +14,13 @@
     (= CellType/BOOLEAN (.getCellTypeEnum cell)) (.getBooleanCellValue cell)
     :else nil))
 
-(defn- row-values [row]
+(defn row-values [row]
   (let [record (->> row
                     .cellIterator
                     iterator-seq
                     (map cell-value)
-                    (into [])
-                    (drop 1)
-                    drop-last)]
+                    (remove nil?)
+                    (into []))]
     #_(when (some? (first record)))
     record))
 
