@@ -1,0 +1,23 @@
+2020/01/19 ICICI Bank
+    ; 189
+    ; UPI Payment Received
+    Liabilities:Credit-Card:ICICI-Amazon    7626.61 INR
+    Assets:Checking:ICICI
+
+2020/01/20 Unknown
+    Liabilities:Credit-Card:ICICI-Amazon      -19.76 INR
+    ; 606686
+    ; Interest Amount Amortization - <3/6>
+    Liabilities:Credit-Card:ICICI-Amazon       -3.56 INR
+    ; 5606688
+    ; IGST-CI@18%
+    Expenses:Tax:GST                            3.56 INR
+    Liabilities:Credit-Card:ICICI-Amazon     -363.41 INR
+    ; 606702
+    ; Principal Amount Amortization - <3/6>
+    Expenses:Shopping
+
+2020/01/24 Shoppy Mart ; Trip:Chikmagalur
+    ; UPI/8404579/travel/paytm-75722521@/Paytm Payments /AC2T4HPWZZRG32
+    Assets:Checking:ICICI                     -100.0 INR
+    Expenses:Travel:Trip

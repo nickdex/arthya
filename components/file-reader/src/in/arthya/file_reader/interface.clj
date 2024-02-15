@@ -20,3 +20,8 @@
   ([file-path] (read-csv file-path nil))
   ([file-path opts]
    (core/read-csv file-path opts)))
+
+(defn read-ledger
+  "Reads ledger file and converts records to clojure list of maps"
+  [file-path]
+  (core/read-ledger file-path))

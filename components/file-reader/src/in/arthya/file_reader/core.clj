@@ -1,7 +1,11 @@
 (ns in.arthya.file-reader.core
-  (:import [java.io FileInputStream]
-           [org.apache.poi.ss.usermodel CellType WorkbookFactory])
-  (:require [meta-csv.core :as csv]))
+  (:require
+   [clojure.string :as str]
+   [in.arthya.file-reader.ledger :as ledger]
+   [meta-csv.core :as csv])
+  (:import
+   [java.io FileInputStream]
+   [org.apache.poi.ss.usermodel CellType WorkbookFactory]))
 
 (defn cell-value [cell]
   (cond
@@ -52,3 +56,10 @@
        (map #(if columns
                (select-keys % columns)
                %))))
+
+(defn read-ledger [file-path]
+  (->> file-path
+       slurp
+       ledger/->ledger-records
+       (map #(map str/trim %))
+       (map ledger/->record)))

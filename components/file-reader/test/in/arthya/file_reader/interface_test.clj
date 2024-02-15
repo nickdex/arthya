@@ -23,7 +23,6 @@
    "components/file-reader/resources/file-reader/test2.csv"
    {:skip 12}))
 
-
 (deftest rows-parsed
   (is (seq? parsed-file-no-opts))
   (is (= 678 (count parsed-file-no-opts)))
@@ -68,3 +67,61 @@
           "Status" "Executed",
           "Fund Name" "NIPPON INDIA MUTUAL FUND",
           "Scheme Name" "Nippon India Small Cap Fund - Growth Plan - Growth Option"})))
+
+(def ^:private ledger-file-parsed
+  (file-reader/read-ledger
+   "components/file-reader/resources/file-reader/test.ledger"))
+
+(deftest ledger-file-parsed-test
+  (is (= (count ledger-file-parsed) 3))
+  (is (= (first ledger-file-parsed)
+         {:comment '("; 189" "; UPI Payment Received"),
+          :date "2020/01/19",
+          :payee "ICICI Bank",
+          :postings '({:account "Liabilities:Credit-Card:ICICI-Amazon",
+                       :amount "7626.61",
+                       :comment nil,
+                       :currency "INR"}
+                      {:account "Assets:Checking:ICICI",
+                       :amount 0,
+                       :comment nil,
+                       :currency "INR"}),
+          :tags nil}))
+  (is (= (second ledger-file-parsed)
+         {:comment nil,
+          :date "2020/01/20",
+          :payee "Unknown",
+          :postings '({:account "Liabilities:Credit-Card:ICICI-Amazon",
+                       :amount "-19.76",
+                       :comment [ "; 606686" "; Interest Amount Amortization - <3/6>" ],
+                       :currency "INR"}
+                      {:account "Liabilities:Credit-Card:ICICI-Amazon",
+                       :amount "-3.56",
+                       :comment [ "; 5606688" "; IGST-CI@18%" ],
+                       :currency "INR"}
+                      {:account "Expenses:Tax:GST",
+                       :amount "3.56",
+                       :comment nil,
+                       :currency "INR"}
+                      {:account "Liabilities:Credit-Card:ICICI-Amazon",
+                       :amount "-363.41",
+                       :comment [ "; 606702" "; Principal Amount Amortization - <3/6>" ],
+                       :currency "INR"}
+                      {:account "Expenses:Shopping",
+                       :amount 0,
+                       :comment nil,
+                       :currency "INR"}),
+          :tags nil}))
+  (is (= (nth ledger-file-parsed 2)
+         {:comment '("; UPI/8404579/travel/paytm-75722521@/Paytm Payments /AC2T4HPWZZRG32"),
+          :date "2020/01/24",
+          :payee "Shoppy Mart",
+          :postings '({:account "Assets:Checking:ICICI",
+                       :amount "-100.0",
+                       :comment nil,
+                       :currency "INR"}
+                      {:account "Expenses:Travel:Trip",
+                       :amount 0,
+                       :comment nil,
+                       :currency "INR"}),
+          :tags ["Trip:Chikmagalur"]})))
