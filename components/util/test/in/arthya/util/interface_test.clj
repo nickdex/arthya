@@ -3,6 +3,10 @@
             [in.arthya.util.interface :as util]))
 
 (deftest parse-currency-from-string-test
+  (is (= (util/parse-currency-from-string "")
+         0.0))
+  (is (= (util/parse-currency-from-string nil)
+         0.0))
   (is (= (util/parse-currency-from-string "26.89 Dr.")
          26.89))
   (is (= (util/parse-currency-from-string "1.80 Cr.")
