@@ -17,7 +17,7 @@
     (util/includes-any? memo ["anand"]) "Anand Sweets and Savouries"
     (util/includes-any? memo ["openai"]) "Open AI Inc"
     (util/includes-any? memo ["amazon"]) "Amazon"
+    (util/includes-any? memo ["zomato"]) "Zomato"
     (util/includes-any? memo ["swiggy" "bundl tech"]) "Swiggy"
     (util/includes-any? memo ["nataraj food"]) "Nataraj Chole Bhature"
     :else "Unknown"))
-
