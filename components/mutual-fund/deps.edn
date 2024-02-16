@@ -1,5 +1,0 @@
-{:paths ["src" "resources"]
- :deps {clj-time/clj-time {:mvn/version "0.15.2"}
-        meta-csv/meta-csv {:mvn/version "0.1.0"}}
- :aliases {:test {:extra-paths ["test"]
-                  :extra-deps {}}}}

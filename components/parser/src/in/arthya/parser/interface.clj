@@ -4,6 +4,7 @@ and giving common structure for further processing"
   (:require
    [in.arthya.parser.icici-bank :as icici-bank]
    [in.arthya.parser.icici-credit-card :as icici-cc]
+   [in.arthya.parser.mutual-fund :as mf]
    [in.arthya.parser.sbi-bank :as sbi-bank]
    [in.arthya.parser.sodexo :as sodexo]))
 
@@ -13,5 +14,6 @@ and giving common structure for further processing"
   (condp = source
     :icici-bank (icici-bank/parse records)
     :icici-cc (icici-cc/parse records)
+    :mutual-fund (mf/parse records)
     :sbi-bank (sbi-bank/parse records)
     :sodexo (sodexo/parse records)))

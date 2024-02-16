@@ -2,7 +2,6 @@
 
                   :extra-deps {; Components
                                poly/parser {:local/root "components/parser"}
-                               poly/mutual-fund {:local/root "components/mutual-fund"}
                                poly/file-reader {:local/root "components/file-reader"}
                                poly/payee {:local/root "components/payee"}
                                poly/util {:local/root "components/util"}
@@ -14,7 +13,6 @@
                                djblue/portal {:mvn/version "0.51.1"}}}
 
             :test {:extra-paths ["components/parser/test"
-                                 "components/mutual-fund/test"
                                  "components/file-reader/test"
                                  "components/payee/test"
                                  "components/util/test"
