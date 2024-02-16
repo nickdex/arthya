@@ -28,8 +28,8 @@
         date (fix-date (get row "Date & Time of Balance"))
         memo (get row "Transaction Details")
         memo (str id "\n" memo)
-        credit (util/parse-currency-from-string (get row "Credit(in Rs.)"))
-        debit (util/parse-currency-from-string (get row "Debit(in Rs.)"))
+        credit (util/parse-currency (get row "Credit(in Rs.)"))
+        debit (util/parse-currency (get row "Debit(in Rs.)"))
         amount (if (or (= 0 debit) (= 0.0 debit))
                  credit
                  (* -1 debit))]

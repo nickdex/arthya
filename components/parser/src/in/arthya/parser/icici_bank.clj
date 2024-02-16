@@ -20,8 +20,8 @@
   (let [date (util/fix-date (get row "Transaction Date"))
         serial (get row "S No.")
         memo (get row "Transaction Remarks")
-        debit (get row "Withdrawal Amount (INR )")
-        credit (get row "Deposit Amount (INR )")
+        debit (util/parse-currency (get row "Withdrawal Amount (INR )"))
+        credit (util/parse-currency (get row "Deposit Amount (INR )"))
         amount (if (or (= 0 debit) (= 0.0 debit))
                  credit
                  (* -1 debit))]

@@ -10,7 +10,7 @@
                   "\n"
                   (get row "Details"))
         amount-str (-> (get row "Amount (INR)"))
-        amount (util/parse-currency-from-string amount-str)
+        amount (util/parse-currency amount-str)
         amount (cond
                  (str/includes? amount-str "Cr.") amount
                  (str/includes? amount-str "Dr.") (* -1 amount)
