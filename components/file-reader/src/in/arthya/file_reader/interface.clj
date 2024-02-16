@@ -25,3 +25,12 @@
   "Reads ledger file and converts records to clojure list of maps"
   [file-path]
   (core/read-ledger file-path))
+
+(defn read-text
+  "Reads any plain text file returning list of rows
+
+  ### Optional Parameters
+  - :termiante-pred: Predicate to drop records at tail end of file
+  - :skip: skip number of records from start of file"
+  ([file-path opts]
+   (core/read-text file-path opts)))

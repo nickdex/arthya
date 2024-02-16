@@ -125,3 +125,17 @@
                        :comment nil,
                        :currency "INR"}),
           :tags ["Trip:Chikmagalur"]})))
+
+(def ^:private text-file-parsed
+  (file-reader/read-text
+   "components/file-reader/resources/file-reader/text-test.xls"
+   {:skip 19
+    :terminate-pred #(seq %)}))
+
+(deftest text-file-parsed-test
+  (is (= (count text-file-parsed)
+         6))
+  (is (= (first text-file-parsed)
+         "Txn Date\tValue Date\tDescription\tRef No./Cheque No.\t        Debit\tCredit\tBalance\t"))
+  (is (= (last text-file-parsed)
+         "27 Jan 2024\t27 Jan 2024\t   TO TRANSFER-INB IMPS/P2A/402711565960/XXXXXXX016ICIC--\tIMPS00246444860MOAIYHKOG0               TRANSFER T\t20,000.00\t \t1,59,236.55")))

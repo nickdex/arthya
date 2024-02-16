@@ -67,3 +67,9 @@
        ledger/->ledger-records
        (map #(map str/trim %))
        (map ledger/->record)))
+
+(defn read-text [file-path opts]
+  (->> file-path
+       slurp
+       str/split-lines
+       (trim-rows opts)))
