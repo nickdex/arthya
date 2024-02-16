@@ -16,6 +16,20 @@
                              :commodity
                              :account])]}))
 
+(defn- comment-to-str [comment]
+  (str "\n    ; "
+       (->> (str/split-lines comment)
+            (str/join "\n    ; "))))
+
+(defn- ->posting-entry [{:keys [account comment amount
+                        units unit-price commodity]}]
+             (if commodity
+               (str "    " account "  "
+                    units " " commodity " @ "
+                    unit-price " INR")
+               (str "    " account "  " amount " " "INR"
+                    (when comment (comment-to-str comment)))))
+
 (defn ->hledger-entry
   "Converts transaction adapter record to hledger map and create ledger entry in plain text"
   [transaction]
@@ -26,17 +40,6 @@
     (->>
      (concat
       [(str date " " payee tag-line
-            (when comment (str "\n    ; "
-                               (->> (str/split-lines comment)
-                                    (str/join "\n    ; ")))))]
-      (map (fn [{:keys [account comment amount
-                        units unit-price commodity]}]
-             (if commodity
-               (str "    " account "  "
-                    units " " commodity " @ "
-                    unit-price " INR")
-               (str "    " account "  " amount " " "INR"
-                    (when comment
-                      (str "\n        ; " comment)))))
-           postings))
+            (when comment (comment-to-str comment)))]
+      (map ->posting-entry postings))
      (str/join "\n"))))
