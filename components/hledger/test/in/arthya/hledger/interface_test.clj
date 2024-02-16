@@ -3,7 +3,7 @@
             [in.arthya.hledger.interface :as hledger]))
 
 (deftest hledger-notation
-  (is (= (hledger/->hledger-record
+  (is (= (hledger/->hledger-entry
           {:date "2021/12/16"
            :payee "Fruit Vendor"
            :memo "Vada pav"

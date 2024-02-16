@@ -16,7 +16,7 @@
                              :commodity
                              :account])]}))
 
-(defn ->hledger-record
+(defn ->hledger-entry
   "Converts transaction adapter record to hledger map and create ledger entry in plain text"
   [transaction]
   (let [{:keys [date payee

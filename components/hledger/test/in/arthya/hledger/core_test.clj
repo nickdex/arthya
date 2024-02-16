@@ -31,7 +31,7 @@
           :postings [{:units 100, :unit-price 20.5, :commodity "NIFTY", :account "Assets:Demat"}]})))
 
 (deftest hledger-entry
-  (is (= (hledger/->hledger-record
+  (is (= (hledger/->hledger-entry
           {:date "2021/12/16"
            :payee "Fruit Vendor"
            :tags ["T:A"]
@@ -41,7 +41,7 @@
          "2021/12/16 Fruit Vendor ; T:A\n    ; Some memo\n    Expense:Food  -10 INR")))
 
 (deftest hledger-commodity-entry
-  (is (= (hledger/->hledger-record
+  (is (= (hledger/->hledger-entry
           {:date "2021/12/16"
            :payee "NSE"
            :tags ["T:A"]
@@ -53,7 +53,7 @@
          "2021/12/16 NSE ; T:A\n    ; Some memo\n    Assets:Demat  100 NIFTY @ 20.5 INR")))
 
 (deftest hledger-multiline-comment-test
-  (is (= (hledger/->hledger-record
+  (is (= (hledger/->hledger-entry
           {:date "2021/12/16"
            :payee "Fruit Vendor"
            :tags ["T:A"]
