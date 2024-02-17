@@ -1,6 +1,7 @@
 (ns in.arthya.file-reader.ledger
   (:require
-   [clojure.string :as str]))
+   [clojure.string :as str]
+   [in.arthya.util.interface :as util]))
 
 (defn group-lines [file]
   (let [lines (str/split-lines file)
@@ -24,16 +25,19 @@
        :tags tags})
     (catch Exception e (prn line (.getMessage e)))))
 
+(defn clean-comment [comment]
+  (-> comment
+      (subs 1)
+      str/trim))
+
 (defn ->posting [element]
   (let [[posting & comments] element
         [account r] (str/split posting #"\s\s+" 2)
         [amount unit] (if r
                         (str/split r #"\s")
                         [0 "INR"])]
-    {:account account
-     :amount amount
-     :currency unit
-     :comment comments}))
+    (util/create-map [:account :amount :currency :comment]
+                     [account amount unit (map clean-comment comments)])))
 
 (defn group-items [lines]
   (reduce (fn [acc line]
@@ -50,4 +54,6 @@
         transaction (parse-header transaction)
         accounts {:postings (->> body
                                  (map ->posting))}]
-    (merge transaction accounts {:comment transaction-comments})))
+    (merge transaction accounts
+           (util/create-map
+            [:comment] [(map clean-comment transaction-comments)]))))

@@ -75,54 +75,48 @@
 (deftest ledger-file-parsed-test
   (is (= (count ledger-file-parsed) 3))
   (is (= (first ledger-file-parsed)
-         {:comment '("; 189" "; UPI Payment Received"),
+         {:comment '("189" "UPI Payment Received"),
           :date "2020/01/19",
           :payee "ICICI Bank",
           :postings '({:account "Liabilities:Credit-Card:ICICI-Amazon",
                        :amount "7626.61",
-                       :comment nil,
                        :currency "INR"}
                       {:account "Assets:Checking:ICICI",
                        :amount 0,
-                       :comment nil,
                        :currency "INR"}),
           :tags nil}))
   (is (= (second ledger-file-parsed)
-         {:comment nil,
+         {
           :date "2020/01/20",
           :payee "Unknown",
           :postings '({:account "Liabilities:Credit-Card:ICICI-Amazon",
                        :amount "-19.76",
-                       :comment [ "; 606686" "; Interest Amount Amortization - <3/6>" ],
+                       :comment [ "606686" "Interest Amount Amortization - <3/6>" ],
                        :currency "INR"}
                       {:account "Liabilities:Credit-Card:ICICI-Amazon",
                        :amount "-3.56",
-                       :comment [ "; 5606688" "; IGST-CI@18%" ],
+                       :comment [ "5606688" "IGST-CI@18%" ],
                        :currency "INR"}
                       {:account "Expenses:Tax:GST",
                        :amount "3.56",
-                       :comment nil,
                        :currency "INR"}
                       {:account "Liabilities:Credit-Card:ICICI-Amazon",
                        :amount "-363.41",
-                       :comment [ "; 606702" "; Principal Amount Amortization - <3/6>" ],
+                       :comment [ "606702" "Principal Amount Amortization - <3/6>" ],
                        :currency "INR"}
                       {:account "Expenses:Shopping",
                        :amount 0,
-                       :comment nil,
                        :currency "INR"}),
           :tags nil}))
   (is (= (nth ledger-file-parsed 2)
-         {:comment '("; UPI/8404579/travel/paytm-75722521@/Paytm Payments /AC2T4HPWZZRG32"),
+         {:comment '("UPI/8404579/travel/paytm-75722521@/Paytm Payments /AC2T4HPWZZRG32"),
           :date "2020/01/24",
           :payee "Shoppy Mart",
           :postings '({:account "Assets:Checking:ICICI",
                        :amount "-100.0",
-                       :comment nil,
                        :currency "INR"}
                       {:account "Expenses:Travel:Trip",
                        :amount 0,
-                       :comment nil,
                        :currency "INR"}),
           :tags ["Trip:Chikmagalur"]})))
 
