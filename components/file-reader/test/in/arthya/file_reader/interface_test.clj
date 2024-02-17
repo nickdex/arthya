@@ -44,10 +44,9 @@
        parsed-file-no-opts)))
 
 (deftest csv-rows-parsed
-  (is (= (count csv-file-columns) 1))
-  (is (= (count csv-file) 3))
-  (is (= (first csv-file)
-         {"col0" nil,
+  (is (= 1 (count csv-file-columns)))
+  (is (= 3 (count csv-file)))
+  (is (= {"col0" nil,
           "col1" nil,
           "Transaction Date" "01/02/2024",
           "Details" "INSTANT EMI OFFUS CONVERSION_C",
@@ -58,24 +57,24 @@
           "col8" nil,
           "Reference Number" 8691532626,
           "col10" nil,
-          "col11" nil}))
-  (is (= (first csv-file-columns)
-         {"Amount" 5000.0,
+          "col11" nil}
+         (first csv-file)))
+  (is (= {"Amount" 5000.0,
           "Date" "01-JAN-2024 00:00:00",
           "Last recorded NAV" 139.1762,
           "Unit" 35.924,
           "Status" "Executed",
           "Fund Name" "NIPPON INDIA MUTUAL FUND",
-          "Scheme Name" "Nippon India Small Cap Fund - Growth Plan - Growth Option"})))
+          "Scheme Name" "Nippon India Small Cap Fund - Growth Plan - Growth Option"}
+         (first csv-file-columns))))
 
 (def ^:private ledger-file-parsed
   (file-reader/read-ledger
    "components/file-reader/resources/file-reader/test.ledger"))
 
 (deftest ledger-file-parsed-test
-  (is (= (count ledger-file-parsed) 3))
-  (is (= (first ledger-file-parsed)
-         {:comment '("189" "UPI Payment Received"),
+  (is (= 3 (count ledger-file-parsed)))
+  (is (= {:comment '("189" "UPI Payment Received"),
           :date "2020/01/19",
           :payee "ICICI Bank",
           :postings '({:account "Liabilities:Credit-Card:ICICI-Amazon",
@@ -84,9 +83,9 @@
                       {:account "Assets:Checking:ICICI",
                        :amount 0,
                        :currency "INR"}),
-          :tags nil}))
-  (is (= (second ledger-file-parsed)
-         {
+          :tags nil}
+         (first ledger-file-parsed)))
+  (is (= {
           :date "2020/01/20",
           :payee "Unknown",
           :postings '({:account "Liabilities:Credit-Card:ICICI-Amazon",
@@ -107,9 +106,9 @@
                       {:account "Expenses:Shopping",
                        :amount 0,
                        :currency "INR"}),
-          :tags nil}))
-  (is (= (nth ledger-file-parsed 2)
-         {:comment '("UPI/8404579/travel/paytm-75722521@/Paytm Payments /AC2T4HPWZZRG32"),
+          :tags nil}
+         (second ledger-file-parsed)))
+  (is (= {:comment '("UPI/8404579/travel/paytm-75722521@/Paytm Payments /AC2T4HPWZZRG32"),
           :date "2020/01/24",
           :payee "Shoppy Mart",
           :postings '({:account "Assets:Checking:ICICI",
@@ -118,7 +117,8 @@
                       {:account "Expenses:Travel:Trip",
                        :amount 0,
                        :currency "INR"}),
-          :tags ["Trip:Chikmagalur"]})))
+          :tags ["Trip:Chikmagalur"]}
+         (nth ledger-file-parsed 2))))
 
 (def ^:private text-file-parsed
   (file-reader/read-text
@@ -127,9 +127,9 @@
     :terminate-pred #(seq %)}))
 
 (deftest text-file-parsed-test
-  (is (= (count text-file-parsed)
-         6))
-  (is (= (first text-file-parsed)
-         "Txn Date\tValue Date\tDescription\tRef No./Cheque No.\t        Debit\tCredit\tBalance\t"))
-  (is (= (last text-file-parsed)
-         "27 Jan 2024\t27 Jan 2024\t   TO TRANSFER-INB IMPS/P2A/402711565960/XXXXXXX016ICIC--\tIMPS00246444860MOAIYHKOG0               TRANSFER T\t20,000.00\t \t1,59,236.55")))
+  (is (= 6
+         (count text-file-parsed)))
+  (is (= "Txn Date\tValue Date\tDescription\tRef No./Cheque No.\t        Debit\tCredit\tBalance\t"
+         (first text-file-parsed)))
+  (is (= "27 Jan 2024\t27 Jan 2024\t   TO TRANSFER-INB IMPS/P2A/402711565960/XXXXXXX016ICIC--\tIMPS00246444860MOAIYHKOG0               TRANSFER T\t20,000.00\t \t1,59,236.55"
+         (last text-file-parsed))))

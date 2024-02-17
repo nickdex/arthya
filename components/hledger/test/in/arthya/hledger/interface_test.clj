@@ -3,11 +3,11 @@
             [in.arthya.hledger.interface :as hledger]))
 
 (deftest hledger-notation
-  (is (= (hledger/->hledger-entry
-          {:date "2021/12/16"
-           :payee "Fruit Vendor"
-           :memo "Vada pav"
-           :tags ["T:A"]
-           :account "Expense:Food"
-           :amount "-10"})
-         "2021/12/16 Fruit Vendor ; T:A\n    ; Vada pav\n    Expense:Food  -10 INR")))
+  (is (= "2021/12/16 Fruit Vendor ; T:A\n    ; Vada pav\n    Expense:Food  -10 INR"
+         (hledger/->hledger-entry
+           {:date "2021/12/16"
+            :payee "Fruit Vendor"
+            :memo "Vada pav"
+            :tags ["T:A"]
+            :account "Expense:Food"
+            :amount "-10"}))))

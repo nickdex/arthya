@@ -4,6 +4,6 @@
    [in.arthya.file-reader.ledger :as ledger]))
 
 (deftest clean-comment-test
-  (is (= (ledger/clean-comment
-           "; 2889")
-         "2889")))
+  (is (= "2889"
+         (ledger/clean-comment
+           "; 2889"))))

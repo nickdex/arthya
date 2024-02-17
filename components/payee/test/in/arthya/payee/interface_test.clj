@@ -3,5 +3,5 @@
             [in.arthya.payee.interface :as payee]))
 
 (deftest infer-test
-  (is (= (payee/infer {:memo "8555202565\nCAFE VISHALA, BANGALORE, IN"})
-         "Cafe Vishala")))
+  (is (= "Cafe Vishala"
+         (payee/infer {:memo "8555202565\nCAFE VISHALA, BANGALORE, IN"}))))
