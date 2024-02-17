@@ -8,7 +8,7 @@
    (select-keys transaction
                 [:date :payee :tags])
 
-   {:comment memo
+   {:comment (str/split-lines memo)
     :postings [(select-keys transaction
                             [:amount
                              :units
@@ -19,7 +19,7 @@
 
 (defn comment->str [comment]
   (str "\n    ; "
-       (->> (str/split-lines comment)
+       (->> comment
             (str/join "\n    ; "))))
 
 (defn ->posting-entry [{:keys [account comment amount currency
