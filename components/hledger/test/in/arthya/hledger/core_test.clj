@@ -50,32 +50,28 @@
 (deftest hledger-entry-test
   (is (= "2021/12/16 Fruit Vendor ; T:A\n    ; Some memo\n    Expense:Food  -10 INR"
          (hledger/->hledger-entry
-          {:date "2021/12/16"
-           :payee "Fruit Vendor"
-           :tags ["T:A"]
-           :memo "Some memo"
-           :account "Expense:Food"
-           :currency "INR"
-           :amount "-10"})))
+          {:comment "Some memo",
+           :date "2021/12/16",
+           :payee "Fruit Vendor",
+           :postings [{:account "Expense:Food", :amount "-10", :currency "INR"}],
+           :tags ["T:A"]})))
 
   (is (= "2021/12/16 NSE ; T:A\n    ; Some memo\n    Assets:Demat  100 NIFTY @ 20.5 INR"
          (hledger/->hledger-entry
-          {:date "2021/12/16"
-           :payee "NSE"
-           :tags ["T:A"]
-           :memo "Some memo"
-           :account "Assets:Demat"
-           :currency "INR"
-           :units 100
-           :commodity "NIFTY"
-           :unit-price 20.5})))
+          {:comment "Some memo",
+           :date "2021/12/16",
+           :payee "NSE",
+           :postings [{:account "Assets:Demat",
+                       :commodity "NIFTY",
+                       :currency "INR",
+                       :unit-price 20.5,
+                       :units 100}],
+           :tags ["T:A"]})))
 
   (is (= "2021/12/16 Fruit Vendor ; T:A\n    ; Some memo\n    ; second line\n    Expense:Food  -10 INR"
          (hledger/->hledger-entry
-          {:date "2021/12/16"
-           :payee "Fruit Vendor"
-           :tags ["T:A"]
-           :memo "Some memo\nsecond line"
-           :account "Expense:Food"
-           :currency "INR"
-           :amount "-10"}))))
+          {:comment "Some memo\nsecond line",
+           :date "2021/12/16",
+           :payee "Fruit Vendor",
+           :postings [{:account "Expense:Food", :amount "-10", :currency "INR"}],
+           :tags ["T:A"]}))))

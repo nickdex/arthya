@@ -48,5 +48,4 @@
   "From transaction adapter record, create a hledger entry in plain text"
   [transaction]
   (-> transaction
-      ->transaction
       transaction->str))
