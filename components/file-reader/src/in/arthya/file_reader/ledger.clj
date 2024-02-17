@@ -33,9 +33,8 @@
 (defn ->posting [element]
   (let [[posting & comments] element
         [account r] (str/split posting #"\s\s+" 2)
-        [amount unit] (if r
-                        (str/split r #"\s")
-                        [0 "INR"])]
+        [amount unit] (when r
+                        (str/split r #"\s"))]
     (util/create-map [:account :amount :currency :comment]
                      [account amount unit (map clean-comment comments)])))
 
