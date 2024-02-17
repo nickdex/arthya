@@ -38,3 +38,17 @@
   ([date-str] (fix-date date-str {:input "dd/MM/yyyy"}))
   ([date-str opts]
    (date/fix-date date-str opts)))
+
+(defn non-empty-value? [val]
+  (cond
+    (nil? val) false
+    (string? val) (seq val)
+    (coll? val) (seq val)
+    :else true))
+
+(defn create-map
+  "Creates a map from keys and values, excluding entries with values that are nil, empty lists, empty vectors, or empty strings."
+  [keys values]
+  (let [pairs (filter (fn [[_ val]] (non-empty-value? val))
+                      (map vector keys values))]
+    (into {} pairs)))

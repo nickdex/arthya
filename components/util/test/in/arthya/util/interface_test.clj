@@ -33,3 +33,20 @@
          "2024/01/02"))
   (is (= (util/fix-date "2 Sep 2024" {:input "d MMM yyyy"})
          "2024/09/02")))
+
+(deftest create-map-test
+  (is (= {:a 1.01, :b 2}
+         (util/create-map [:a :b]
+                          [1.01 2])))
+  (is (= {:b 2}
+         (util/create-map [:a :b]
+                          [nil 2])))
+  (is (= {:b 2}
+         (util/create-map [:a :b]
+                          ['() 2])))
+  (is (= {:b 2}
+         (util/create-map [:a :b]
+                          ['[] 2])))
+  (is (= {:b 2}
+         (util/create-map [:a :b]
+                          ["" 2]))))
