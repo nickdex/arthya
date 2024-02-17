@@ -64,9 +64,9 @@
 (defn read-ledger [file-path]
   (->> file-path
        slurp
-       ledger/->ledger-records
+       ledger/group-lines
        (map #(map str/trim %))
-       (map ledger/->record)))
+       (map ledger/->entry)))
 
 (defn read-text [file-path opts]
   (->> file-path

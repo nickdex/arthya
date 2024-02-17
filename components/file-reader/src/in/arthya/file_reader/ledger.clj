@@ -2,7 +2,7 @@
   (:require
    [clojure.string :as str]))
 
-(defn ->ledger-records [file]
+(defn group-lines [file]
   (let [lines (str/split-lines file)
         groups (partition-by empty? lines)
         groups (remove #(-> % first empty?) groups)]
@@ -43,7 +43,7 @@
           []
           lines))
 
-(defn ->record [rows]
+(defn ->entry [rows]
   (let [groups (group-items rows)
         [header & body] groups
         [transaction & transaction-comments] header
