@@ -38,6 +38,7 @@
            :tags ["T:A"]
            :memo "Some memo"
            :account "Expense:Food"
+           :currency "INR"
            :amount "-10"})))
 
   (is (= "2021/12/16 NSE ; T:A\n    ; Some memo\n    Assets:Demat  100 NIFTY @ 20.5 INR"
@@ -47,6 +48,7 @@
            :tags ["T:A"]
            :memo "Some memo"
            :account "Assets:Demat"
+           :currency "INR"
            :units 100
            :commodity "NIFTY"
            :unit-price 20.5})))
@@ -58,4 +60,5 @@
            :tags ["T:A"]
            :memo "Some memo\nsecond line"
            :account "Expense:Food"
+           :currency "INR"
            :amount "-10"}))))

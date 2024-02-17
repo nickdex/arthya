@@ -13,6 +13,7 @@
                             [:amount
                              :units
                              :unit-price
+                             :currency
                              :commodity
                              :account])]}))
 
@@ -21,14 +22,15 @@
        (->> (str/split-lines comment)
             (str/join "\n    ; "))))
 
-(defn ->posting-entry [{:keys [account comment amount
-                        units unit-price commodity]}]
-             (if commodity
-               (str "    " account "  "
-                    units " " commodity " @ "
-                    unit-price " INR")
-               (str "    " account "  " amount " " "INR"
-                    (when comment (comment->str comment)))))
+(defn ->posting-entry [{:keys [account comment amount currency
+                               units unit-price commodity]}]
+  (if commodity
+    (str "    " account "  "
+         units " " commodity " @ "
+         unit-price " " currency)
+    (str "    " account (when (and amount currency)
+                          (str "  " amount " " currency))
+         (when comment (comment->str comment)))))
 
 (defn transaction->str
   [{:keys [date payee

@@ -10,4 +10,5 @@
             :memo "Vada pav"
             :tags ["T:A"]
             :account "Expense:Food"
+            :currency "INR"
             :amount "-10"}))))
