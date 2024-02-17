@@ -30,6 +30,23 @@
            :commodity "NIFTY"
            :unit-price 20.5}))))
 
+(deftest comment->str-test
+  (is (= "\n    ; 446274839060\n    ; SWIGGY"
+         (hledger/comment->str
+          "446274839060\nSWIGGY"))))
+
+(deftest transaction->str-test
+  (is (= "2024/01/02 Swiggy\n    ; 446274839060\n    ; SWIGGY\n    Assets:Checking:Sodexo-6102  -242.0 INR\n    Expenses:Food"
+         (hledger/transaction->str
+          {:comment "446274839060\nSWIGGY",
+           :date "2024/01/02",
+           :payee "Swiggy",
+           :postings [{:account "Assets:Checking:Sodexo-6102",
+                       :amount "-242.0",
+                       :currency "INR"}
+                      {:account "Expenses:Food"}],
+           :tags nil}))))
+
 (deftest hledger-entry-test
   (is (= "2021/12/16 Fruit Vendor ; T:A\n    ; Some memo\n    Expense:Food  -10 INR"
          (hledger/->hledger-entry
