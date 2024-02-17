@@ -80,32 +80,27 @@
           :postings '({:account "Liabilities:Credit-Card:ICICI-Amazon",
                        :amount "7626.61",
                        :currency "INR"}
-                      {:account "Assets:Checking:ICICI",
-                       :amount 0,
-                       :currency "INR"}),
+                      {:account "Assets:Checking:ICICI"}),
           :tags nil}
          (first ledger-file-parsed)))
-  (is (= {
-          :date "2020/01/20",
+  (is (= {:date "2020/01/20",
           :payee "Unknown",
           :postings '({:account "Liabilities:Credit-Card:ICICI-Amazon",
                        :amount "-19.76",
-                       :comment [ "606686" "Interest Amount Amortization - <3/6>" ],
+                       :comment ["606686" "Interest Amount Amortization - <3/6>"],
                        :currency "INR"}
                       {:account "Liabilities:Credit-Card:ICICI-Amazon",
                        :amount "-3.56",
-                       :comment [ "5606688" "IGST-CI@18%" ],
+                       :comment ["5606688" "IGST-CI@18%"],
                        :currency "INR"}
                       {:account "Expenses:Tax:GST",
                        :amount "3.56",
                        :currency "INR"}
                       {:account "Liabilities:Credit-Card:ICICI-Amazon",
                        :amount "-363.41",
-                       :comment [ "606702" "Principal Amount Amortization - <3/6>" ],
+                       :comment ["606702" "Principal Amount Amortization - <3/6>"],
                        :currency "INR"}
-                      {:account "Expenses:Shopping",
-                       :amount 0,
-                       :currency "INR"}),
+                      {:account "Expenses:Shopping"}),
           :tags nil}
          (second ledger-file-parsed)))
   (is (= {:comment '("UPI/8404579/travel/paytm-75722521@/Paytm Payments /AC2T4HPWZZRG32"),
@@ -114,9 +109,7 @@
           :postings '({:account "Assets:Checking:ICICI",
                        :amount "-100.0",
                        :currency "INR"}
-                      {:account "Expenses:Travel:Trip",
-                       :amount 0,
-                       :currency "INR"}),
+                      {:account "Expenses:Travel:Trip"}),
           :tags ["Trip:Chikmagalur"]}
          (nth ledger-file-parsed 2))))
 
