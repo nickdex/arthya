@@ -23,18 +23,18 @@
   (apply str (repeat count " ")))
 
 (defn comment->str [comment]
-  (str "\n    ; "
+  (str "\n" (space 4) "; "
        (->> comment
-            (str/join "\n    ; "))))
+            (str/join (str "\n" (space 4) "; ")))))
 
 (defn ->posting-entry [{:keys [account comment amount currency
                                units unit-price commodity]}]
   (if commodity
-    (str "    " account "  "
+    (str (space 4) account (space 2)
          units " " commodity " @ "
          unit-price " " currency)
-    (str "    " account (when (and amount currency)
-                          (str "  " amount " " currency))
+    (str (space 4) account (when (and amount currency)
+                             (str (space 2) amount " " currency))
          (when comment (comment->str comment)))))
 
 (defn transaction->str
