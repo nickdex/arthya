@@ -78,3 +78,11 @@
            :payee "Fruit Vendor",
            :postings [{:account "Expense:Food", :amount "-10", :currency "INR"}],
            :tags ["T:A"]}))))
+
+(deftest space-test
+  (is (= " "
+         (hledger/space 1)))
+  (is (= "    "
+         (hledger/space 4)))
+  (is (= "  "
+         (hledger/space 2))))

@@ -17,6 +17,11 @@
                              :commodity
                              :account])]}))
 
+(defn space
+  "Creates string with number of spaces given. Useful for indentation"
+  [count]
+  (apply str (repeat count " ")))
+
 (defn comment->str [comment]
   (str "\n    ; "
        (->> comment
