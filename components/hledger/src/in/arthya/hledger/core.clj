@@ -1,22 +1,25 @@
 (ns in.arthya.hledger.core
-  (:require [clojure.string :as str]))
+  (:require
+   [clojure.string :as str]
+   [in.arthya.util.interface :as util]))
 
 (defn ->transaction
-  [{:keys [memo]
+  [{:keys [memo amount]
     :as transaction}]
   (merge
    (select-keys transaction
                 [:date :payee :tags])
 
-   {:comment (->> (str/split-lines memo)
-                  (map str/trim))
-    :postings [(select-keys transaction
-                            [:amount
-                             :units
-                             :unit-price
-                             :currency
-                             :commodity
-                             :account])]}))
+   {:comment (when memo
+               (->> (str/split-lines memo)
+                    (map str/trim)))
+    :postings [(merge
+                (util/create-map [:units] [amount])
+                (select-keys transaction
+                             [:account,
+                              :commodity,
+                              :conversion-commodity,
+                              :conversion-units]))]}))
 
 (defn space
   "Creates string with number of spaces given. Useful for indentation"
@@ -28,15 +31,22 @@
        (->> comment
             (str/join (str "\n" (space 4) "; ")))))
 
-(defn ->posting-entry [{:keys [account comment amount currency
-                               units unit-price commodity]}]
-  (if commodity
-    (str (space 4) account (space 2)
-         units " " commodity " @ "
-         unit-price " " currency)
-    (str (space 4) account (when (and amount currency)
-                             (str (space 2) amount " " currency))
-         (when comment (comment->str comment)))))
+(defn ->posting-entry [{:keys [account comment units commodity
+                               conversion-commodity conversion-units]}]
+  (let [posting-space (space
+                       (- 52
+                          4 ;; Indent
+                          (count account)
+                          (count (str units))))]
+    (str (space 4) account
+         (if (and conversion-units
+                  conversion-commodity)
+           (str posting-space
+                units " " commodity " @ "
+                conversion-units " " conversion-commodity)
+           (str (when (and units commodity)
+                  (str posting-space units " " commodity))
+                (when comment (comment->str comment)))))))
 
 (defn transaction->str
   [{:keys [date payee
