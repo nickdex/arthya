@@ -20,4 +20,5 @@
     (util/includes-any? memo ["zomato"]) "Zomato"
     (util/includes-any? memo ["swiggy" "bundl tech"]) "Swiggy"
     (util/includes-any? memo ["nataraj food"]) "Nataraj Chole Bhature"
+    (util/includes-any? memo ["salary"]) "Sumeru"
     :else "Unknown"))
