@@ -9,18 +9,29 @@
           "; 2889"))))
 
 (deftest posting-test
-  (is (= {:account "Assets:Checking:Sodexo-6102", :amount "-239.0", :currency "INR"}
+  (is (= {:account "Assets:Checking:Sodexo-6102", :units "-239.0", :commodity "INR"}
          (ledger/->posting
           ["Assets:Checking:Sodexo-6102  -239.0 INR"])))
   (is (= {:account "Assets:Checking:Sodexo-6102"}
          (ledger/->posting
           ["Assets:Checking:Sodexo-6102  "])))
-  (is (= {:account "Assets:Checking:Sodexo-6102",
-          :amount "-239.0",
-          :comment ["Test"],
-          :currency "INR"}
+  (is (= {:account "Assets:Checking:Demat",
+          :units "20"
+          :conversion-units "10.15"
+          :conversion-commodity "INR"
+          :commodity "NISCF_GG"
+          :comment ["Test"]}
          (ledger/->posting
-          ["Assets:Checking:Sodexo-6102  -239.0 INR"
+          ["Assets:Checking:Demat  20 NISCF_GG @ 10.15 INR"
+           "; Test"])))
+  (is (= {:account "Assets:Checking:Demat",
+          :units "35.924",
+          :conversion-units "139.1762",
+          :conversion-commodity "INR"
+          :comment ["Test"],
+          :commodity "NISCF_GG"}
+         (ledger/->posting
+          ["Assets:Checking:Demat               35.924 NISCF_GG @ 139.1762 INR"
            "; Test"]))))
 
 (deftest entry-test
@@ -28,8 +39,8 @@
           :date "2024/01/02",
           :payee "Swiggy",
           :postings [{:account "Assets:Checking:Sodexo-6102",
-                      :amount "-242.0",
-                      :currency "INR"}
+                      :units "-242.0",
+                      :commodity "INR"}
                      {:account "Expenses:Food"}],
           :tags nil}
          (ledger/->entry
