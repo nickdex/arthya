@@ -8,7 +8,8 @@
    (select-keys transaction
                 [:date :payee :tags])
 
-   {:comment (str/split-lines memo)
+   {:comment (->> (str/split-lines memo)
+                  (map str/trim))
     :postings [(select-keys transaction
                             [:amount
                              :units
