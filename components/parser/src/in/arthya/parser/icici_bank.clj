@@ -8,7 +8,7 @@
       (empty? s) (reverse result)  ; When all sequences are processed
 
       ;; If the current head is a pair (current and next), merge them
-      (nil? (get (second s) "Transaction Date"))
+      (nil? (get (second s) "Value Date"))
       (recur (drop 2 s) (conj result (update (first s) "Transaction Remarks" str (get (second s)  "Transaction Remarks"))))
 
       :else  ; Otherwise, just move the head to the result
@@ -17,7 +17,7 @@
 (defn ->posting
   "Converts statement map to transaction row map containing date, amount and memo. Can contain additional information as required"
   [row]
-  (let [date (util/fix-date (get row "Transaction Date"))
+  (let [date (util/fix-date (get row "Value Date"))
         serial (get row "S No.")
         memo (get row "Transaction Remarks")
         debit (util/parse-currency (get row "Withdrawal Amount (INR )"))
