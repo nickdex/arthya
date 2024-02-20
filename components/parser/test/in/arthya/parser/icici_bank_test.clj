@@ -48,58 +48,62 @@
 (deftest posting-test
   (is (= {:date "2024/01/27",
           :memo "UPI/439329851533/2 nights tent/9483182708@ybl/Bank of Baroda/ACD01HN54XZ6AE4700",
+          :commodity "INR"
           :account :icici-bank,
-          :amount -1600.0,
+          :quantity -1600.0,
           :sno "36"}
          (core/->posting
-           {"S No." "36",
-            "Value Date" "27/01/2024",
-            "Transaction Date" "27/01/2024",
-            "Cheque Number" "-",
-            "Transaction Remarks" "UPI/439329851533/2 nights tent/9483182708@ybl/Bank of Baroda/ACD01HN54XZ6AE4700",
-            "Withdrawal Amount (INR )" 1600.0,
-            "Deposit Amount (INR )" 0.0,
-            "Balance (INR )" 4075.94})))
+          {"S No." "36",
+           "Value Date" "27/01/2024",
+           "Transaction Date" "27/01/2024",
+           "Cheque Number" "-",
+           "Transaction Remarks" "UPI/439329851533/2 nights tent/9483182708@ybl/Bank of Baroda/ACD01HN54XZ6AE4700",
+           "Withdrawal Amount (INR )" 1600.0,
+           "Deposit Amount (INR )" 0.0,
+           "Balance (INR )" 4075.94})))
   (is (= {:date "2024/01/27"
           :memo "MMT/IMPS/402711565960/ReqPay/Mr  NIKHIL/State Bank",
+          :commodity "INR"
           :account :icici-bank,
-          :amount 20000.0
+          :quantity 20000.0
           :sno "33"}
          (core/->posting
-           {"S No." "33",
-            "Value Date" "27/01/2024",
-            "Transaction Date" "27/01/2024",
-            "Cheque Number" "-",
-            "Transaction Remarks" "MMT/IMPS/402711565960/ReqPay/Mr  NIKHIL/State Bank",
-            "Withdrawal Amount (INR )" 0.0,
-            "Deposit Amount (INR )" 20000.0,
-            "Balance (INR )" 20705.94}))))
+          {"S No." "33",
+           "Value Date" "27/01/2024",
+           "Transaction Date" "27/01/2024",
+           "Cheque Number" "-",
+           "Transaction Remarks" "MMT/IMPS/402711565960/ReqPay/Mr  NIKHIL/State Bank",
+           "Withdrawal Amount (INR )" 0.0,
+           "Deposit Amount (INR )" 20000.0,
+           "Balance (INR )" 20705.94}))))
 
 (deftest clean-postings-test
-  (is (= '({:date "2024/01/27",
-            :memo "UPI/402784415982/bananas/q692910553@ybl/Yes Bank Ltd/ACD01HN53S95N29BXYZ70W0XRY",
-            :account :icici-bank,
-            :amount -30.0,
-            :sno "35"}
-           {:date "2024/01/27",
-            :memo "UPI/439344021256/Deposit 1/9131161006@payt/State Bank Of I/ACD01HN4QG9TS2X69VSC",
-            :account :icici-bank,
-            :amount -15000.0,
-            :sno "34"})
+  (is (= [{:date "2024/01/27",
+           :memo "UPI/402784415982/bananas/q692910553@ybl/Yes Bank Ltd/ACD01HN53S95N29BXYZ70W0XRY",
+           :commodity "INR"
+           :account :icici-bank,
+           :quantity -30.0,
+           :sno "35"}
+          {:date "2024/01/27",
+           :memo "UPI/439344021256/Deposit 1/9131161006@payt/State Bank Of I/ACD01HN4QG9TS2X69VSC",
+           :commodity "INR"
+           :account :icici-bank,
+           :quantity -15000.0,
+           :sno "34"}]
          (core/clean-postings
-           ['("34"
-              "27/01/2024"
-              "27/01/2024"
-              "-"
-              "UPI/439344021256/Deposit 1/9131161006@payt/State Bank Of I/ACD01HN4QG9TS2X69VSC"
-              15000.0
-              0.0
-              5705.94)
-            '("35"
-              "27/01/2024"
-              "27/01/2024"
-              "-"
-              "UPI/402784415982/bananas/q692910553@ybl/Yes Bank Ltd/ACD01HN53S95N29BXYZ70W0XRY"
-              30.0
-              0.0
-              5675.94)]))))
+          [["34"
+            "27/01/2024"
+            "27/01/2024"
+            "-"
+            "UPI/439344021256/Deposit 1/9131161006@payt/State Bank Of I/ACD01HN4QG9TS2X69VSC"
+            15000.0
+            0.0
+            5705.94]
+           ["35"
+            "27/01/2024"
+            "27/01/2024"
+            "-"
+            "UPI/402784415982/bananas/q692910553@ybl/Yes Bank Ltd/ACD01HN53S95N29BXYZ70W0XRY"
+            30.0
+            0.0
+            5675.94]]))))

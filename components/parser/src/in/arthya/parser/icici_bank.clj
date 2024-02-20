@@ -27,7 +27,8 @@
                  (* -1 debit))]
     {:date date
      :memo memo
-     :amount amount
+     :quantity amount
+     :commodity "INR"
      :account :icici-bank
      :sno serial}))
 

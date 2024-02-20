@@ -22,17 +22,13 @@
       (util/fix-date {:input "dd-MMM-yyyy"})))
 
 (defn ->record [row]
-  (let [unit-price (get row "Last recorded NAV")
-        unit-name (commodity-name (get row "Scheme Name"))
-        fund (get row "Fund Name")
-        date (fix-date (get row "Date"))
-        units (get row "Unit")]
-    {:date date
-     :payee fund
-     :account :mutual-fund
-     :commodity unit-name
-     :units units
-     :unit-price unit-price}))
+  {:account :mutual-fund,
+   :commodity (commodity-name (get row "Scheme Name")),
+   :quantity (get row "Unit")
+   :price {:commodity "INR"
+           :quantity (get row "Last recorded NAV")}
+   :date (fix-date (get row "Date")),
+   :payee (get row "Fund Name")})
 
 (defn parse
   "Converts transaction records from mutual fund statement to common transaction structure. Expects list of list"

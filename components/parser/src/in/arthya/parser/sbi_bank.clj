@@ -22,7 +22,8 @@
                  (* -1 debit))]
     {:date date
      :memo memo
-     :amount amount
+     :quantity amount
+     :commodity "INR"
      :account :sbi-bank}))
 
 (defn parse
