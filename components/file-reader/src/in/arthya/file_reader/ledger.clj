@@ -33,13 +33,14 @@
 (defn ->posting [element]
   (let [[posting & comments] element
         [account r] (str/split posting #"\s\s+" 2)
-        [units commodity _ conversion-units conversion-commodity]
+        [quantity commodity _ & price]
         (when r
           (str/split r #"\s+"))]
-    (util/create-map [:account :units :commodity :comment
-                      :conversion-units :conversion-commodity]
-                     [account units commodity (map clean-comment comments)
-                      conversion-units conversion-commodity])))
+    (util/create-map [:account :quantity :commodity :comment
+                      :price]
+                     [account quantity commodity (map clean-comment comments)
+                      (util/create-map [:quantity :commodity]
+                                       price)])))
 
 (defn group-items [lines]
   (reduce (fn [acc line]
