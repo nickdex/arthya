@@ -7,33 +7,34 @@
           :payee "Fruit Vendor",
           :tags ["T:A"],
           :comment ["Some memo"]
-          :postings [{:units "-10", :account "Expense:Food"}]}
+          :postings [{:quantity "-10", :account "Expense:Food"}]}
          (hledger/->transaction
           {:date "2021/12/16"
            :payee "Fruit Vendor"
            :tags ["T:A"]
            :memo "Some memo"
            :account "Expense:Food"
-           :amount "-10"})))
+           :quantity "-10"})))
+
   (is (= {:date "2021/12/16",
           :payee "NSE",
           :tags ["T:A"],
           :comment ["Some memo"]
           :postings [{:account "Assets:Demat",
-                      :units 100,
+                      :quantity 100,
                       :commodity "NIFTY",
-                      :conversion-commodity "INR"
-                      :conversion-units 20.5}]}
+                      :price {:commodity "INR"
+                              :quantity 20.5}}]}
          (hledger/->transaction
           {:date "2021/12/16"
            :payee "NSE"
            :tags ["T:A"]
            :memo "Some memo"
            :account "Assets:Demat"
-           :amount 100
+           :quantity 100
            :commodity "NIFTY"
-           :conversion-commodity "INR"
-           :conversion-units 20.5}))))
+           :price {:commodity "INR"
+                   :quantity 20.5}}))))
 
 (deftest comment->str-test
   (is (= "\n    ; 446274839060\n    ; SWIGGY"
@@ -47,7 +48,7 @@
            :date "2024/01/02",
            :payee "Swiggy",
            :postings [{:account "Assets:Checking:Sodexo-6102",
-                       :units "-242.0",
+                       :quantity "-242.0",
                        :commodity "INR"}
                       {:account "Expenses:Food"}],
            :tags nil}))))
@@ -59,7 +60,7 @@
            :date "2021/12/16",
            :payee "Fruit Vendor",
            :postings [{:account "Expense:Food",
-                       :units "-10",
+                       :quantity "-10",
                        :comment ["Item: One" "Item: Two"]
                        :commodity "INR"}],
            :tags ["T:A"]})))
@@ -71,9 +72,9 @@
            :payee "NSE",
            :postings [{:account "Assets:Demat",
                        :commodity "NIFTY",
-                       :conversion-commodity "INR",
-                       :conversion-units 20.5,
-                       :units 100}],
+                       :price {:commodity "INR"
+                               :quantity 20.5}
+                       :quantity 100}],
            :tags ["T:A"]})))
 
   (is (= "2021/12/16 Fruit Vendor ; T:A\n    ; Some memo\n    ; second line\n    Expense:Food                                 -10 INR"
@@ -81,7 +82,7 @@
           {:comment ["Some memo" "second line"]
            :date "2021/12/16",
            :payee "Fruit Vendor",
-           :postings [{:account "Expense:Food", :units "-10", :commodity "INR"}],
+           :postings [{:account "Expense:Food", :quantity "-10", :commodity "INR"}],
            :tags ["T:A"]}))))
 
 (deftest space-test
@@ -96,12 +97,12 @@
   (is (= "    Assets:Checking:Demat                       -200 HIMFUT @ 10.5 INR"
          (hledger/->posting-entry
           {:account "Assets:Checking:Demat"
-           :conversion-commodity "INR"
-           :conversion-units 10.50
-           :units -200
+           :price {:commodity "INR"
+                   :quantity 10.50}
+           :quantity -200
            :commodity "HIMFUT"})))
   (is (= "    Assets:Checking:SBI                     -20000.0 INR"
          (hledger/->posting-entry
           {:account "Assets:Checking:SBI"
-           :units -20000.0
+           :quantity -20000.0
            :commodity "INR"}))))

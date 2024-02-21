@@ -6,7 +6,7 @@
   (is (= {:comment ["Vada pav"]
           :date "2021/12/16",
           :payee "Fruit Vendor",
-          :postings [{:account "Expense:Food", :units "-10", :commodity "INR"}],
+          :postings [{:account "Expense:Food", :quantity "-10", :commodity "INR"}],
           :tags ["T:A"]}
          (hledger/->hledger-transaction
           {:date "2021/12/16"
@@ -15,7 +15,7 @@
            :tags ["T:A"]
            :account "Expense:Food"
            :commodity "INR"
-           :amount "-10"}))))
+           :quantity "-10"}))))
 
 (deftest hledger-entry-test
   (is (= "2021/12/16 Fruit Vendor ; T:A\n    ; Vada pav\n    Expense:Food                                 -10 INR"
@@ -23,5 +23,5 @@
           {:comment ["Vada pav"]
            :date "2021/12/16",
            :payee "Fruit Vendor",
-           :postings [{:account "Expense:Food", :units "-10", :commodity "INR"}],
+           :postings [{:account "Expense:Food", :quantity "-10", :commodity "INR"}],
            :tags ["T:A"]}))))

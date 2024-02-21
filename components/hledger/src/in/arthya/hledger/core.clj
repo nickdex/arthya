@@ -4,7 +4,7 @@
    [in.arthya.util.interface :as util]))
 
 (defn ->transaction
-  [{:keys [memo amount]
+  [{:keys [memo quantity]
     :as transaction}]
   (merge
    (select-keys transaction
@@ -14,12 +14,11 @@
                (->> (str/split-lines memo)
                     (map str/trim)))
     :postings [(merge
-                (util/create-map [:units] [amount])
+                (util/create-map [:quantity] [quantity])
                 (select-keys transaction
                              [:account,
                               :commodity,
-                              :conversion-commodity,
-                              :conversion-units]))]}))
+                              :price]))]}))
 
 (defn space
   "Creates string with number of spaces given. Useful for indentation"
@@ -31,22 +30,24 @@
        (->> comment
             (str/join (str "\n" (space 4) "; ")))))
 
-(defn ->posting-entry [{:keys [account comment units commodity
-                               conversion-commodity conversion-units]}]
+(defn price->str [{:keys [quantity commodity]}]
+  (str quantity " " commodity))
+
+(defn ->posting-entry [{:keys [account comment quantity commodity
+                               price]}]
   (let [posting-space (space
                        (- 52
                           4 ;; Indent
                           (count account)
-                          (count (str units))))]
+                          (count (str quantity))))]
     (str (space 4) account
-         (if (and conversion-units
-                  conversion-commodity)
+         (when quantity
            (str posting-space
-                units " " commodity " @ "
-                conversion-units " " conversion-commodity)
-           (str (when (and units commodity)
-                  (str posting-space units " " commodity))
-                (when comment (comment->str comment)))))))
+                (if price
+                  (str quantity " " commodity " @ "
+                       (price->str price))
+                  (str quantity " " commodity))))
+         (when comment (comment->str comment)))))
 
 (defn transaction->str
   [{:keys [date payee
