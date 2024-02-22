@@ -23,6 +23,7 @@
   [s]
   (cond
     (= (type 0.0) (type s)) s
+    (= (type 0) (type s)) (double s)
     (or (nil? s) (empty? (str/trim s))) 0.0
     :else (let [cleaned (-> s
                             (clojure.string/replace #"[^\d.]+" "")

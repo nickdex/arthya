@@ -9,8 +9,12 @@
          (util/parse-currency nil)))
   (is (= 0.0
          (util/parse-currency 0.0)))
+  (is (= -9988.0
+         (util/parse-currency -9988)))
   (is (= 129.50
          (util/parse-currency 129.50)))
+  (is (true? (util/parse-currency -9988)
+         (util/parse-currency "-9988.0")))
   (is (= 26.89
          (util/parse-currency "26.89 Dr.")))
   (is (= 1.80
