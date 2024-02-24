@@ -2,6 +2,7 @@
 
                   :extra-deps {; Components
                                poly/parser {:local/root "components/parser"}
+                               poly/oauth {:local/root "components/oauth"}
                                poly/file {:local/root "components/file"}
                                poly/file-reader {:local/root "components/file-reader"}
                                poly/sms {:local/root "components/sms"}
@@ -15,6 +16,7 @@
                                djblue/portal {:mvn/version "0.51.1"}}}
 
             :test {:extra-paths ["components/parser/test"
+                                 "components/oauth/test"
                                  "components/file/test"
                                  "components/file-reader/test"
                                  "components/sms/test"
