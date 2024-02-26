@@ -21,6 +21,15 @@
                            {:userId "me"
                             :id id}))
 
+(defn get-attachments
+  [message-id]
+  (->>
+   (get-in (get-message message-id) [:payload :parts])
+   (filter #(seq (% :filename)))
+   (map (fn [element]
+          {:attachment-id (get-in element [:body :attachmentId])
+           :file-name (element :filename)}))))
+
 (defn save-attachment!
   [{:keys [message-id id file-path]}]
   (->
