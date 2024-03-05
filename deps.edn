@@ -7,7 +7,7 @@
                                poly/file {:local/root "components/file"}
                                poly/file-reader {:local/root "components/file-reader"}
                                poly/sms {:local/root "components/sms"}
-                               poly/payee {:local/root "components/payee"}
+                               poly/inference-engine {:local/root "components/inference-engine"}
                                poly/util {:local/root "components/util"}
                                poly/hledger {:local/root "components/hledger"}
 
@@ -22,7 +22,7 @@
                                  "components/file/test"
                                  "components/file-reader/test"
                                  "components/sms/test"
-                                 "components/payee/test"
+                                 "components/inference-engine/test"
                                  "components/util/test"
                                  "components/hledger/test"]}
 
