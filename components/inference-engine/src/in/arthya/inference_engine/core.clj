@@ -37,4 +37,13 @@
         (keys inferrence-map)))
 
 (defn infer-payee [{:keys [memo]}]
-  (first-matched-val memo payee-inferrence-map))
+  (let [infered-payee (first-matched-val memo payee-inferrence-map)]
+    (if infered-payee
+      infered-payee
+      "Unknown")))
+
+(defn infer-account [{:keys [payee]}]
+  (let [infered-account (first-matched-val payee account-inferrence-map)]
+    (if infered-account
+     infered-account
+     "Unknown")))
