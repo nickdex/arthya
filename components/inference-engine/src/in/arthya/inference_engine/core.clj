@@ -31,19 +31,21 @@
    ["shell"] "Expenses:Travel:Fuel"})
 
 (defn first-matched-val
-  [attribute inferrence-map]
-  (some #(when (util/includes-any? attribute %)
-           (inferrence-map %))
-        (keys inferrence-map)))
+  [attributes inferrence-map]
+  (some (fn [attribute]
+          (some #(when (util/includes-any? attribute %)
+                   (inferrence-map %))
+                (keys inferrence-map)))
+        attributes))
 
 (defn infer-payee [{:keys [memo]}]
-  (let [infered-payee (first-matched-val memo payee-inferrence-map)]
+  (let [infered-payee (first-matched-val [memo] payee-inferrence-map)]
     (if infered-payee
       infered-payee
       "Unknown")))
 
-(defn infer-account [{:keys [payee]}]
-  (let [infered-account (first-matched-val payee account-inferrence-map)]
+(defn infer-account [{:keys [payee memo]}]
+  (let [infered-account (first-matched-val [payee memo] account-inferrence-map)]
     (if infered-account
-     infered-account
-     "Unknown")))
+      infered-account
+      "Unknown")))
