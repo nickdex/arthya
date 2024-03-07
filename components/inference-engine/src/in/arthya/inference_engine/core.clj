@@ -13,6 +13,7 @@
    ["polar bear"] "Polar Bear",
    ["salary"] "Sumeru",
    ["shell" "naga gowri sampth"] "Shell",
+   ["shyamjis chole bhature"] "Shyam Chole Bhature",
    ["shoppy mart"] "Shoppy Mart",
    ["sri sri tattva panchak"] "Panchamrut",
    ["sumeru hotel and re"] "Sumeru Hotel and Real Estate",
@@ -26,6 +27,10 @@
     "anand sweets"
     "polar bear"
     "cafe vishala"
+    "pav bhaji"
+    "fruits"
+    "fafda"
+    "lunch"
     "swiggy"
     "zomato"] "Expenses:Food"
    ["shell"] "Expenses:Travel:Fuel"})
