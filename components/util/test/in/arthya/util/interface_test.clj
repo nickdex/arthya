@@ -13,7 +13,7 @@
          (util/parse-currency -9988)))
   (is (= 129.50
          (util/parse-currency 129.50)))
-  (is (= (util/parse-currency -9988)
+  (is (= -9988.0
          (util/parse-currency "-9988.0")))
   (is (= 26.89
          (util/parse-currency "26.89 Dr.")))

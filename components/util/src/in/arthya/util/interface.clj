@@ -22,12 +22,11 @@
   "
   [s]
   (cond
-    (= (type 0.0) (type s)) s
-    (= (type 0) (type s)) (double s)
+    (instance? Number s) (double s)
     (or (nil? s) (empty? (str/trim s))) 0.0
     :else (let [cleaned (-> s
-                            (clojure.string/replace #"[^\d.]+" "")
-                            (clojure.string/replace #"\.$" ""))
+                            (str/replace #"[^\d.-]+" "") ; Allow digits, dot, and minus sign
+                            (str/replace #"\.$" ""))
                 parsed (Double/parseDouble cleaned)]
             parsed)))
 
