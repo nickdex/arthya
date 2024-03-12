@@ -10,7 +10,7 @@
   (is (= "Swiggy"
          (core/infer-payee {:memo "swiggy"})))
 
-  (is (= "Unknown"
+  (is (= nil
          (core/infer-payee {:memo ";d"}))))
 
 (deftest infer-account-test

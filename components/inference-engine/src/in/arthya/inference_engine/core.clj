@@ -51,14 +51,8 @@
                 (keys inferrence-map)))
         attributes))
 
-(defn infer-payee [{:keys [memo]}]
-  (let [infered-payee (first-matched-val [memo] payee-inferrence-map)]
-    (if infered-payee
-      infered-payee
-      "Unknown")))
+(defn infer-payee [{:keys [memo payee]}]
+  (first-matched-val [memo payee] payee-inferrence-map))
 
 (defn infer-account [{:keys [payee memo]}]
-  (let [infered-account (first-matched-val [payee memo] account-inferrence-map)]
-    (if infered-account
-      infered-account
-      "Unknown")))
+  (first-matched-val [payee memo] account-inferrence-map))
