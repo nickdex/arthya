@@ -6,16 +6,20 @@
   {["amazon"] "Amazon",
    ["anand"] "Anand Sweets and Savouries",
    ["cafe vishala"] "Cafe Vishala",
+   ["eating love"] "Eating Love"
+   ["sumeru hotel"] "Sumeru Hotel"
    ["keerthi"] "Keerthi Triumph",
    ["nataraj food"] "Nataraj Chole Bhature",
-   ["openai"] "Open AI Inc",
+   ["chatgpt""openai"] "Open AI Inc",
    ["organic load"] "Organic Loaf",
    ["polar bear"] "Polar Bear",
    ["salary"] "Sumeru",
-   ["shell" "naga gowri sampth"] "Shell",
+   ["shell" "naga gowri sampth" "naga gowri"] "Shell",
    ["shyamjis chole bhature"] "Shyam Chole Bhature",
    ["shoppy mart"] "Shoppy Mart",
    ["sri sri tattva panchak"] "Panchamrut",
+   ["indian oil"] "Indian Oil"
+   ["subway"] "Subway"
    ["sumeru hotel and re"] "Sumeru Hotel and Real Estate",
    ["swiggy" "bundl tech"] "Swiggy",
    ["zomato"] "Zomato"})
@@ -30,9 +34,13 @@
     "pav bhaji"
     "fruits"
     "fafda"
+    "eating love"
+    "sumeru hotel"
     "lunch"
     "swiggy"
     "zomato"] "Expenses:Food"
+   ["shoppy mart"] "Expenses:Food:Groceries"
+   ["open ai"] "Expenses:Education"
    ["shell"] "Expenses:Travel:Fuel"})
 
 (defn first-matched-val
