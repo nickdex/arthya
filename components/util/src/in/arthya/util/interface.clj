@@ -53,3 +53,6 @@
   (let [pairs (filter (fn [[_ val]] (non-empty-value? val))
                       (map vector keys values))]
     (into {} pairs)))
+
+(defn title-case [s]
+  (str/join " " (map #(str/capitalize %) (str/split s #"\s+"))))
