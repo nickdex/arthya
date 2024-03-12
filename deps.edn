@@ -11,6 +11,9 @@
                                poly/util {:local/root "components/util"}
                                poly/hledger {:local/root "components/hledger"}
 
+                               ; Bases
+                               poly/desktop {:local/root "bases/desktop"}
+
                                org.clojure/clojure {:mvn/version "1.11.1"}
 
                                ; Development Deps
