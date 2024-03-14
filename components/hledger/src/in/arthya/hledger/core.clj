@@ -4,7 +4,9 @@
    [in.arthya.util.interface :as util]))
 
 (defn ->transaction
-  [{:keys [memo quantity]
+  "Create hledger style transactions.
+  If provided with xaccount value will create balanced transaction with two postings"
+  [{:keys [memo quantity xaccount]
     :as transaction}]
   (merge
    (select-keys transaction
@@ -13,12 +15,14 @@
    {:comment (when memo
                (->> (str/split-lines memo)
                     (map str/trim)))
-    :postings [(merge
-                (util/create-map [:quantity] [quantity])
-                (select-keys transaction
-                             [:account,
-                              :commodity,
-                              :price]))]}))
+    :postings (remove nil?
+                      [(merge
+                        (util/create-map [:quantity] [quantity])
+                        (select-keys transaction
+                                     [:account,
+                                      :commodity,
+                                      :price]))
+                       (when xaccount {:account xaccount})])}))
 
 (defn space
   "Creates string with number of spaces given. Useful for indentation"
