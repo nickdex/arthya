@@ -60,7 +60,7 @@
                                  (str/join ", " tags)))]
     (->>
      (concat
-      [(str date " " payee tag-line
+      [(str date " " (or payee "Unknown") tag-line
             (when comment (comment->str comment)))]
       (map ->posting-entry postings))
      (str/join "\n"))))
