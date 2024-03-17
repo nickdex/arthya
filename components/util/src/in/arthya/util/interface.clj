@@ -54,4 +54,5 @@
     (into {} pairs)))
 
 (defn title-case [s]
-  (str/join " " (map #(str/capitalize %) (str/split s #"\s+"))))
+  (when s
+   (str/join " " (map #(str/capitalize %) (str/split s #"\s+")))))
