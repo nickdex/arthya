@@ -16,3 +16,13 @@
 (defn extract-pdf-text
   ([file-path password]
    (pdf/extract-and-print-pdf-text file-path password)))
+
+(defn read
+  "Reads a large file lazily"
+  [file-path]
+  (core/read file-path))
+
+(defn write
+  "Write large list to a file"
+  [file-path data]
+  (core/write file-path data))
