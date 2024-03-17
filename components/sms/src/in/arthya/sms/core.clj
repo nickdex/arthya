@@ -1,46 +1,77 @@
 (ns in.arthya.sms.core
   (:require
-   [clj-time.coerce :as c]
    [clojure.string :as str]
+   [in.arthya.sms.extractor  :as extractor]
+   [in.arthya.sms.imessage-date :as imessage-date]
+   [in.arthya.util.interface :as util]
    [methodical.core :as m]
-   [toucan2.core :as t2]
-   [toucan2.execute :as t2exec]))
+   [toucan2.core :as t2])
+  (:import
+   [java.nio.charset StandardCharsets]))
 
 (def db-spec
   {:dbtype   "sqlite"
-   :dbname   "/Users/nik/Repo/arthya/development/src/dev/resources/chat.db"})
+   :dbname   "temp/chat.db"})
 
 (m/defmethod t2/do-with-connection :default
   [_connectable f]
   (t2/do-with-connection db-spec f))
 
-(t2exec/query :conn db-spec ["Select text,date from message;"])
+(def start-pattern (byte-array [0x01 0x2B]));; SOH, +
+(def end-pattern (byte-array [0x86 0x84]));; SSA, IND
 
-(t2/table-name :model/message)
-(t2/select-one  :model/message)
+(defn find-pattern [bytes pattern]
+  (let [len (alength bytes)
+        pat-len (alength pattern)]
+    (loop [i 0]
+      (when (< (+ i pat-len) len)
+        (if (java.util.Arrays/equals pattern (java.util.Arrays/copyOfRange bytes i (+ i pat-len)))
+          i
+          (recur (inc i)))))))
 
-(tap>
- (->>
-  (t2/select :conn db-spec
-             [:model/message
-              :text
-              :rowid]
-             :text [:not= nil]
-             {:order-by [[:date :desc]]})
-  (map :text)
-  (filter #(or (str/includes? % "Rs")
-               (str/includes? % "USD")
-               (str/includes? % "INR")
-               (str/includes? % "debit")
-               (str/includes? % "credit")))
-  #_(filter #(str/includes? % "ICICI Bank Acct XX016"))))
+(defn parse [bytes]
+  (let [start-idx (find-pattern bytes start-pattern)
+        end-idx (find-pattern bytes end-pattern)]
+    (if (and start-idx end-idx)
+      (let [clean-bytes (java.util.Arrays/copyOfRange bytes (+ start-idx 3) end-idx)]
+        (try
+          (String. clean-bytes StandardCharsets/UTF_8)
+          (catch IllegalArgumentException e
+            ;; Handle invalid UTF-8 data
+            (String. clean-bytes StandardCharsets/UTF_8))))
+      "Error: Start or end pattern not found.")))
 
-(tap>
- ;; (c/to-long "2024-01-01")
-  ;; => 1704067200000
+(defn to-text [bytes]
+  (let [text (parse bytes)]
+    (when text
+      (str/replace text "�" ""))))
 
- (c/from-long (long (/ 725799841330549 60))))
-(t2/select "message" )
+(def messages
+  (->>
+   (t2/select
+    [:model/message
+     :attributedbody
+     :date
+     :rowid]
+    {:order-by [[:date :desc]]})
+   (remove #(nil? (:attributedbody %)))
+   (map (fn [{:keys [attributedbody
+                     rowid
+                     date]}]
+          {:text (try (to-text attributedbody)
+                      (catch Exception _
+                        (throw (ex-info "Error in parsing " rowid))
+                        nil))
+           :date (imessage-date/get-local-time date)}))))
 
-(defn read-sms
-  [file-path])
+(defn process-messages [extractor-map messages]
+  (for [msg messages]
+    (try
+      (let [matched-fn (first (keep (fn [[k v]]
+                                      (when (util/includes-any? msg [k])
+                                        v))
+                                    extractor-map))]
+        (when matched-fn
+          (matched-fn msg)))
+      (catch Exception _
+        (prn "Error: " msg)))))
