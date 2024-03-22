@@ -11,11 +11,10 @@
   (merge
    (select-keys transaction
                 [:date :payee :tags])
-
-   {:comment (when memo
-               (->> (str/split-lines memo)
-                    (map str/trim)))
-    :postings (remove nil?
+   (when memo
+     {:comment (->> (str/split-lines memo)
+                    (map str/trim))})
+   {:postings (remove nil?
                       [(merge
                         (util/create-map [:quantity] [quantity])
                         (select-keys transaction
