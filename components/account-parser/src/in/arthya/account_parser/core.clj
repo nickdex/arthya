@@ -1,13 +1,13 @@
-(ns in.arthya.parser.core
+(ns in.arthya.account-parser.core
   (:require
    [clojure.string :as str]
    [in.arthya.file-reader.interface :as file-reader]
    [in.arthya.hledger.interface :as hledger]
-   [in.arthya.parser.icici-bank :as icici-bank]
-   [in.arthya.parser.icici-credit-card :as icici-cc]
-   [in.arthya.parser.mutual-fund :as mf]
-   [in.arthya.parser.sbi-bank :as sbi-bank]
-   [in.arthya.parser.sodexo :as sodexo]
+   [in.arthya.account-parser.icici-bank :as icici-bank]
+   [in.arthya.account-parser.icici-credit-card :as icici-cc]
+   [in.arthya.account-parser.mutual-fund :as mf]
+   [in.arthya.account-parser.sbi-bank :as sbi-bank]
+   [in.arthya.account-parser.sodexo :as sodexo]
    [in.arthya.util.interface :as util]
    [in.arthya.inference-engine.interface :as ie]))
 

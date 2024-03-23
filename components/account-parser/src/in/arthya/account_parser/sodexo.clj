@@ -1,4 +1,4 @@
-(ns in.arthya.parser.sodexo
+(ns in.arthya.account-parser.sodexo
   (:require
    [clojure.string :as str]
    [in.arthya.util.interface :as util]))

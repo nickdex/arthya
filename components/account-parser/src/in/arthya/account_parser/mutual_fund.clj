@@ -1,4 +1,4 @@
-(ns in.arthya.parser.mutual-fund
+(ns in.arthya.account-parser.mutual-fund
   (:require
    [clojure.string :as str]
    [in.arthya.util.interface :as util]))

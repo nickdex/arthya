@@ -3,7 +3,7 @@
    [cljfx.api :as fx]
    [clojure.string :as str]
    [in.arthya.hledger.interface :as hledger]
-   [in.arthya.parser.interface :as parser]
+   [in.arthya.account-parser.interface :as parser]
    [in.arthya.inference-engine.interface :as ie])
   (:import
    [javafx.event ActionEvent]

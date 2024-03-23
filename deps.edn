@@ -1,7 +1,7 @@
 {:aliases  {:dev {:extra-paths ["development/src"]
 
                   :extra-deps {; Components
-                               poly/parser {:local/root "components/parser"}
+                               poly/account-parser {:local/root "components/account-parser"}
                                poly/gmail {:local/root "components/gmail"}
                                poly/oauth {:local/root "components/oauth"}
                                poly/file {:local/root "components/file"}
@@ -19,7 +19,7 @@
                                ; Development Deps
                                djblue/portal {:mvn/version "0.51.1"}}}
 
-            :test {:extra-paths ["components/parser/test"
+            :test {:extra-paths ["components/account-parser/test"
                                  "components/gmail/test"
                                  "components/oauth/test"
                                  "components/file/test"

@@ -1,4 +1,4 @@
-(ns in.arthya.parser.icici-credit-card
+(ns in.arthya.account-parser.icici-credit-card
   (:require [clojure.string :as str]
             [in.arthya.util.interface :as util]))
 

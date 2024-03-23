@@ -1,4 +1,4 @@
-(ns in.arthya.parser.icici-bank
+(ns in.arthya.account-parser.icici-bank
   (:require [in.arthya.util.interface :as util]))
 
 (defn merge-paired-sequences [seq-of-seqs]

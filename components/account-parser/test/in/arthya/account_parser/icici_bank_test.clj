@@ -1,6 +1,6 @@
-(ns in.arthya.parser.icici-bank-test
+(ns in.arthya.account-parser.icici-bank-test
   (:require [clojure.test :refer [deftest is]]
-            [in.arthya.parser.icici-bank :as core]))
+            [in.arthya.account-parser.icici-bank :as core]))
 
 (deftest merge-rows-over-two-lines
   (is (= '({"S No." "62"

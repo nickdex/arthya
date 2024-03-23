@@ -1,4 +1,4 @@
-(ns in.arthya.parser.sbi-bank
+(ns in.arthya.account-parser.sbi-bank
   (:require
    [clojure.string :as str]
    [in.arthya.util.interface :as util]))
