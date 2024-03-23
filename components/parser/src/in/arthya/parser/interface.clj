@@ -5,7 +5,9 @@ and giving common structure for further processing"
    [in.arthya.parser.core :as core]))
 
 (defn parse
-  "Converts transaction records from source to common transaction structure. Expects list of list"
+  "Converts transaction records from source to common transaction structure.
+  It take accept a file path and parse it if possible or it can take records as vector sequence.
+  It support csv and xls files"
   ([file-path]
    (core/autodetector file-path))
   ([source records]
