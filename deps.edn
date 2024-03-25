@@ -3,6 +3,7 @@
                   :extra-deps {; Components
                                poly/account-parser {:local/root "components/account-parser"}
                                poly/gmail {:local/root "components/gmail"}
+                               poly/database {:local/root "components/database"}
                                poly/oauth {:local/root "components/oauth"}
                                poly/file {:local/root "components/file"}
                                poly/file-reader {:local/root "components/file-reader"}
@@ -21,6 +22,7 @@
 
             :test {:extra-paths ["components/account-parser/test"
                                  "components/gmail/test"
+                                 "components/database/test"
                                  "components/oauth/test"
                                  "components/file/test"
                                  "components/file-reader/test"
