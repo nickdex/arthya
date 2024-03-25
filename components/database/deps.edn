@@ -1,4 +1,4 @@
 {:paths ["src" "resources"]
- :deps {}
+ :deps {datascript/datascript {:mvn/version "1.6.3"}}
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps {}}}}
