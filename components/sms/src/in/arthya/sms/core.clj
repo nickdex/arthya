@@ -11,7 +11,7 @@
 
 (def db-spec
   {:dbtype   "sqlite"
-   :dbname   "temp/chat.db"})
+   :dbname   "/Users/nik/Library/Messages/chat.db"})
 
 (m/defmethod t2/do-with-connection :default
   [_connectable f]
