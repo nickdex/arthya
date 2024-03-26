@@ -34,8 +34,9 @@
   "Converts any input date string to yyyy/MM/dd
 
    Options:
-   - :input - Specifies input date format. Defaults to dd/MM/yyyy"
-  ([date-str] (fix-date date-str {:input "dd/MM/yyyy"}))
+   - :input - Specifies input date format. Defaults to dd/MM/yyyy
+   - :ouput - Specifies input date format. Defaults to yyyy/MM/dd"
+  ([date-str] (fix-date date-str nil))
   ([date-str opts]
    (date/fix-date date-str opts)))
 

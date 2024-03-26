@@ -25,7 +25,8 @@
   "Convert string to LocalDate object, then change it to desired format.
   Sanitizes the input in case source is Sending *Sep* with format *MMM*, the library expects *Sept*"
   [date-str {:keys [input output]
-             :or {output "yyyy/MM/dd"}}]
+             :or {output "yyyy/MM/dd"
+                  input "dd/MM/yyyy"}}]
   (let [sanitized-date-str (if (str/includes? input "MMM")
                              (fix-month date-str)
                              date-str)]
