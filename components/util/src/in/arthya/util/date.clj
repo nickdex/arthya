@@ -1,23 +1,33 @@
 (ns in.arthya.util.date
   (:require
-   [clj-time.format :as f]
+   [tick.core :as t]
    [clojure.string :as str]))
 
-(defn format-date
-  "Converts the LocalDate object back into the desired output string format"
-  ([date output]
-   (f/unparse (f/formatter (if output
-                             output
-                             "yyyy/MM/dd")) date)))
+(defn find-months-in-string [input-str]
+  (let [month-regex (re-pattern "(?i)\\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\\b")
+        matches (re-seq month-regex input-str)]
+    (when (seq matches)
+      (first
+       (map first matches)))))
+
+(defn fix-month [date-str]
+  (let [month (find-months-in-string date-str)
+        handle-sep-fn #(if (= "Sep" %)
+                         "Sept"
+                         %)
+        capitalized-month (-> month
+                              str/lower-case
+                              str/capitalize
+                              handle-sep-fn)]
+    (str/replace date-str month capitalized-month)))
 
 (defn fix-date
-  "Uses clj-time library to convert string to LocalDate object, then change it to desired format.
+  "Convert string to LocalDate object, then change it to desired format.
   Sanitizes the input in case source is Sending *Sep* with format *MMM*, the library expects *Sept*"
-  [date-str {:keys [input output]}]
-  (let [sanitized-date-str (if (and (str/includes? input "MMM")
-                                    (str/includes? date-str "Sep"))
-                             (str/replace date-str #"Sep" "Sept")
+  [date-str {:keys [input output]
+             :or {output "yyyy/MM/dd"}}]
+  (let [sanitized-date-str (if (str/includes? input "MMM")
+                             (fix-month date-str)
                              date-str)]
-    (-> (f/formatter input)
-        (f/parse sanitized-date-str)
-        (format-date output))))
+    (t/format (t/formatter output)
+              (t/parse-date sanitized-date-str (t/formatter input)))))
