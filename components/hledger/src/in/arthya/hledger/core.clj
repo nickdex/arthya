@@ -12,7 +12,7 @@
    (select-keys transaction
                 [:date :payee :tags])
    (when memo
-     {:comment (->> (str/split-lines memo)
+     {:memo (->> (str/split-lines memo)
                     (map str/trim))})
    {:postings (remove nil?
                       [(merge
@@ -28,15 +28,15 @@
   [count]
   (apply str (repeat count " ")))
 
-(defn comment->str [comment]
+(defn memo->str [memo]
   (str "\n" (space 4) "; "
-       (->> comment
+       (->> memo
             (str/join (str "\n" (space 4) "; ")))))
 
 (defn price->str [{:keys [quantity commodity]}]
   (str quantity " " commodity))
 
-(defn ->posting-entry [{:keys [account comment quantity commodity
+(defn ->posting-entry [{:keys [account memo quantity commodity
                                price]}]
   (let [posting-space (space
                        (- 52
@@ -50,17 +50,17 @@
                   (str quantity " " commodity " @ "
                        (price->str price))
                   (str quantity " " commodity))))
-         (when comment (comment->str comment)))))
+         (when memo (memo->str memo)))))
 
 (defn transaction->str
   [{:keys [date payee
-           tags comment postings]}]
+           tags memo postings]}]
   (let [tag-line (when tags (str " ; "
                                  (str/join ", " tags)))]
     (->>
      (concat
       [(str date " " (or payee "Unknown") tag-line
-            (when comment (comment->str comment)))]
+            (when memo (memo->str memo)))]
       (map ->posting-entry postings))
      (str/join "\n"))))
 

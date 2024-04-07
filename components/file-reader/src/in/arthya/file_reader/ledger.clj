@@ -25,27 +25,27 @@
        :tags tags})
     (catch Exception e (prn line (.getMessage e)))))
 
-(defn clean-comment [comment]
-  (-> comment
+(defn clean-memo [memo]
+  (-> memo
       (subs 1)
       str/trim))
 
 (defn ->posting [element]
-  (let [[posting & comments] element
+  (let [[posting & memos] element
         [account r] (str/split posting #"\s\s+" 2)
         [quantity commodity _ & price]
         (when r
           (str/split r #"\s+"))]
-    (util/create-map [:account :quantity :commodity :comment
+    (util/create-map [:account :quantity :commodity :memo
                       :price]
-                     [account quantity commodity (map clean-comment comments)
+                     [account quantity commodity (map clean-memo memos)
                       (util/create-map [:quantity :commodity]
                                        price)])))
 
 (defn group-items [lines]
   (reduce (fn [acc line]
             (if (clojure.string/starts-with? line ";")
-              (update-in acc [(dec (count acc))] conj line) ; Add comment to last group
+              (update-in acc [(dec (count acc))] conj line) ; Add memo to last group
               (conj acc [line]))) ; Start a new group with the item
           []
           lines))
@@ -53,10 +53,10 @@
 (defn ->entry [rows]
   (let [groups (group-items rows)
         [header & body] groups
-        [transaction & transaction-comments] header
+        [transaction & transaction-memos] header
         transaction (parse-header transaction)
         accounts {:postings (->> body
                                  (map ->posting))}]
     (merge transaction accounts
            (util/create-map
-            [:comment] [(map clean-comment transaction-comments)]))))
+            [:memo] [(map clean-memo transaction-memos)]))))

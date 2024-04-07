@@ -33,7 +33,7 @@
         credited-to (re-find #"; (.+) credited" message)
         upi-reference (re-find #"UPI:(\d+)" message)]
     (create-txn {:account (str "Assets:Checking:ICICI"),
-                 :comment (str "UPI Ref - " (second upi-reference)),
+                 :memo (str "UPI Ref - " (second upi-reference)),
                  :commodity "INR",
                  :date (-> date-of-transaction second (util/fix-date {:input "dd-MMM-yy"})),
                  :payee (util/title-case (second credited-to)),
@@ -50,7 +50,7 @@
         payee-re (re-find #" at (.+)\. Avl bal" message)
         available-balance-re (re-find #"Avl bal Rs\.(\d+\.\d+)\." message)]
     (create-txn {:account (str "Assets:Checking:Sodexo:" (second card-re)),
-                 :comment (str "Available Balance - " (second available-balance-re))
+                 :memo (str "Available Balance - " (second available-balance-re))
                  :commodity "INR",
                  :date (->
                         datetime-re
@@ -71,7 +71,7 @@
         txn-no-re (re-find #"\. Txn no\. (\d+)\." message)
         available-balance-re (re-find #"Avl bal is Rs\. (\d+\.\d+)\." message)]
     (create-txn {:account (str "Assets:Checking:Sodexo:" (second card-re)),
-                 :comment (str "Reference: " (second txn-no-re)
+                 :memo (str "Reference: " (second txn-no-re)
                                "\n"
                                "Available Balance - " (second available-balance-re)),
                  :commodity "INR",

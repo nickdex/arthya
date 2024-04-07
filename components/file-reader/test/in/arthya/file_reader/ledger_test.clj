@@ -3,9 +3,9 @@
    [clojure.test :refer [deftest is]]
    [in.arthya.file-reader.ledger :as ledger]))
 
-(deftest clean-comment-test
+(deftest clean-memo-test
   (is (= "2889"
-         (ledger/clean-comment
+         (ledger/clean-memo
           "; 2889"))))
 
 (deftest posting-test
@@ -20,7 +20,7 @@
           :price {:quantity "10.15"
                   :commodity "INR"}
           :commodity "NISCF_GG"
-          :comment ["Test"]}
+          :memo ["Test"]}
          (ledger/->posting
           ["Assets:Checking:Demat  20 NISCF_GG @ 10.15 INR"
            "; Test"])))
@@ -28,14 +28,14 @@
           :quantity "35.924",
           :price {:quantity "139.1762"
                   :commodity "INR"}
-          :comment ["Test"],
+          :memo ["Test"],
           :commodity "NISCF_GG"}
          (ledger/->posting
           ["Assets:Checking:Demat               35.924 NISCF_GG @ 139.1762 INR"
            "; Test"]))))
 
 (deftest entry-test
-  (is (= {:comment ["446274839060" "SWIGGY"],
+  (is (= {:memo ["446274839060" "SWIGGY"],
           :date "2024/01/02",
           :payee "Swiggy",
           :postings [{:account "Assets:Checking:Sodexo-6102",

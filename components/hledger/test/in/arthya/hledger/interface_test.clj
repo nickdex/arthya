@@ -3,7 +3,7 @@
             [in.arthya.hledger.interface :as hledger]))
 
 (deftest hledger-transaction-test
-  (is (= {:comment ["Vada pav"]
+  (is (= {:memo ["Vada pav"]
           :date "2021/12/16",
           :payee "Fruit Vendor",
           :postings [{:account "Expense:Food", :quantity "-10", :commodity "INR"}],
@@ -20,7 +20,7 @@
 (deftest hledger-entry-test
   (is (= "2021/12/16 Fruit Vendor ; T:A\n    ; Vada pav\n    Expense:Food                                 -10 INR"
          (hledger/->hledger-entry
-          {:comment ["Vada pav"]
+          {:memo ["Vada pav"]
            :date "2021/12/16",
            :payee "Fruit Vendor",
            :postings [{:account "Expense:Food", :quantity "-10", :commodity "INR"}],
