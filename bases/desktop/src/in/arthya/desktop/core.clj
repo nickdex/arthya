@@ -1,50 +1,49 @@
 (ns in.arthya.desktop.core
   (:require
    [cljfx.api :as fx]
-   [clojure.string :as str]
-   [in.arthya.hledger.interface :as hledger]
-   [in.arthya.account-parser.interface :as parser]
-   [in.arthya.inference-engine.interface :as ie]
-   [datascript.core :as ds]
-   [in.arthya.database.interface :as db]
    [clojure.edn :as edn]
-   [datascript.core :as d])
+   [clojure.set :as set]
+   [clojure.string :as str]
+   [datascript.core :as ds]
+   [datascript.core :as d]
+   [in.arthya.account-parser.interface :as parser]
+   [in.arthya.database.interface :as db]
+   [in.arthya.hledger.interface :as hledger]
+   [in.arthya.inference-engine.interface :as ie])
   (:import
    [javafx.event ActionEvent]
    [javafx.scene Node]
    [javafx.stage FileChooser]))
 
 (def *state
-  (atom {:query "[:find [?t ...] \n :where [?t :date ?d] \n [?t :memo ?c]\n]"
+  (atom {:query "[:find [?t ...] \n :where [?t :date ?d]\n]"
          :entities nil
          :account nil
          :payee nil
-         :accounts [
-                    "Expenses:Education:Books"
-                    "Expenses:Education"
-                    "Expenses:Entertainment:Movies"
-                    "Expenses:Food:Beverages"
-                    "Expenses:Food:Groceries"
-                    "Expenses:Food"
-                    "Expenses:Health:Eye"
-                    "Expenses:Health:Medicine"
-                    "Expenses:Health"
-                    "Expenses:Miscellaneous:AOL"
-                    "Expenses:Miscellaneous:Business"
-                    "Expenses:Miscellaneous"
-                    "Expenses:Travel:Fuel"
-                    "Expenses:Travel"
-                    "Expenses:Utilities:Clothes"
-                    "Expenses:Utilities:Digital"
-                    "Expenses:Utilities:Housekeeping"
-                    "Expenses:Utilities:Rent"
-                    "Expenses:Utilities:Water"
-                    "Expenses:Utilities"
-                    "Income:Dividends"
-                    "Income:Interest"
-                    "Income:Salary:AOLD"
-                    "Liabilities:Bike:Triumph-Speed-400"
-                    ]
+         :accounts #{"Expenses:Education:Books"
+                     "Expenses:Education"
+                     "Expenses:Entertainment:Movies"
+                     "Expenses:Food:Beverages"
+                     "Expenses:Food:Groceries"
+                     "Expenses:Food"
+                     "Expenses:Health:Eye"
+                     "Expenses:Health:Medicine"
+                     "Expenses:Health"
+                     "Expenses:Miscellaneous:AOL"
+                     "Expenses:Miscellaneous:Business"
+                     "Expenses:Miscellaneous"
+                     "Expenses:Travel:Fuel"
+                     "Expenses:Travel"
+                     "Expenses:Utilities:Clothes"
+                     "Expenses:Utilities:Digital"
+                     "Expenses:Utilities:Housekeeping"
+                     "Expenses:Utilities:Rent"
+                     "Expenses:Utilities:Water"
+                     "Expenses:Utilities"
+                     "Income:Dividends"
+                     "Income:Interest"
+                     "Income:Salary:AOLD"
+                     "Liabilities:Bike:Triumph-Speed-400"}
          :scratch "[(pull ?t [* {:postings [*]}]) ...] "}))
 
 (def *edits (atom {}))
@@ -54,6 +53,7 @@
 (:payee @*state)
 (:query @*state)
 (:entities @*state)
+(:accounts @*state)
 @*state
 @*edits
 @*debug
@@ -64,23 +64,24 @@
 (->> (:postings (first (:entities @*state)))
      (map ds/touch))
 
-(-> @conn
-    (d/entity 8)
-    d/touch
-    ie/infer-account)
+(swap! *state update :accounts set/union
+       (set
+        (db/q '[:find [?a ...]
+                :where [_ :account ?a]]
+              @conn)))
 
-(db/q '[:find [ ?a ...]
-        :where [_ :account ?a]]
-      @conn)
 (->> (:entities @*state)
      (filter #(= 1 (count (:postings %))))
      ;; (map #(assoc % :memo (str/join "\n" (:memo %))))
-     #_(map (fn [e]
-            (merge
-             {:postings [{:account (ie/infer-account e)}]
-              :db/id (:db/id e)}
-             #_(select-keys e [:date :payee :quantity :account]))))
      #_(remove #(nil? (get-in % [:postings 0 :account]))))
+
+(defn entity->map [entity] (into {:db/id (:db/id entity)} entity))
+
+(->
+ (d/entity @conn 68)
+ entity->map
+ (update :memo str/join)
+ #_ie/infer-account)
 
 (defmulti handle ::event)
 
@@ -108,6 +109,7 @@
   (->> (query-result)
        ->entities
        (sort-by :date)
+       ;; (filter #(= 1 (count (:postings %))))
       ;; (take 1)
       ;;  (take 20)
        ;; ->ledger-records
@@ -124,17 +126,31 @@
        (map (fn [[k v]]
               (merge {:db/id k} v)))
        (db/transact! conn ))
+  (reset! *edits {})
   (update-records!))
 
 (defmethod handle ::infer-all [{:keys [^ActionEvent fx/event]}]
-  (let [updates (->> (:entities @*state)
-                     (filter #(= 1 (count (:postings %))))
-                     (map (fn [e]
-                            (merge
-                             {:postings [{:account (ie/infer-account e)}]
-                              :db/id (:db/id e)}
-                             #_(select-keys e [:date :payee :quantity :account]))))
-                     (remove #(nil? (get-in % [:postings 0 :account]))))]
+  (let [payee-updates (->> (:entities @*state)
+                          (filter #(nil? (:payee %)))
+                          (map (fn [e]
+                                 {:payee (-> e
+                                             entity->map
+                                             (update :memo str/join)
+                                             ie/infer-payee)
+                                  :db/id (:db/id e)}))
+                          (remove #(nil? (:payee %))))
+        account-updates (->> (:entities @*state)
+                             (filter #(= 1 (count (:postings %))))
+                             (map (fn [e]
+                                    (merge
+                                     {:postings [{:account (-> e
+                                                               entity->map
+                                                               (update :memo str/join)
+                                                               ie/infer-account)}]
+                                      :db/id (:db/id e)}
+                                     #_(select-keys e [:date :payee :quantity :account]))))
+                             (remove #(nil? (get-in % [:postings 0 :account]))))
+        updates (concat payee-updates account-updates)]
     (reset! *debug updates)
     (db/transact! conn updates))
   (update-records!))
@@ -318,7 +334,7 @@
 (defn start! []
   (fx/mount-renderer *state renderer))
 
-(memo
+(comment
   (defn process [file]
     (->>
      (parser/parse file)
