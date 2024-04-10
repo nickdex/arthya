@@ -61,4 +61,4 @@
 (defn infer-account [transaction]
   (let [memo (:memo transaction)
         payee (:payee transaction)]
-    (first-matched-val [payee memo] account-inferrence-map)))
+    (first-matched-val (remove nil? [payee memo]) account-inferrence-map)))
