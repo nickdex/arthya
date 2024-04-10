@@ -19,10 +19,12 @@
                          [(str/trim (subs rest 0 idx))
                           (str/trim (subs rest (inc idx)))]
                          [rest nil])
-          tags (when tags (vec (map str/trim (str/split tags #","))))]
-      {:date date
-       :payee payee
-       :tags tags})
+          tags (when tags
+                 (->> (str/split tags #",")
+                      (map str/trim)
+                      vec))]
+      (zipmap [:date :payee :tags]
+              (remove nil? [date payee tags])))
     (catch Exception e (prn line (.getMessage e)))))
 
 (defn clean-memo [memo]

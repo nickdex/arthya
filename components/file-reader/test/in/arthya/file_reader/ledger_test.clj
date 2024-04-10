@@ -41,7 +41,6 @@
           :postings [{:account "Assets:Checking:Sodexo-6102",
                       :quantity -242.0,
                       :commodity "INR"}
-                     {:account "Expenses:Food"}],
-          :tags nil}
+                     {:account "Expenses:Food"}]}
          (ledger/->entry
           ["2024/01/02 Swiggy" "; 446274839060" "; SWIGGY" "Assets:Checking:Sodexo-6102  -242.0 INR" "Expenses:Food"]))))
