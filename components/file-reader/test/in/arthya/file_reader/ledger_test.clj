@@ -9,15 +9,15 @@
           "; 2889"))))
 
 (deftest posting-test
-  (is (= {:account "Assets:Checking:Sodexo-6102", :quantity "-239.0", :commodity "INR"}
+  (is (= {:account "Assets:Checking:Sodexo-6102", :quantity -239.0, :commodity "INR"}
          (ledger/->posting
           ["Assets:Checking:Sodexo-6102  -239.0 INR"])))
   (is (= {:account "Assets:Checking:Sodexo-6102"}
          (ledger/->posting
           ["Assets:Checking:Sodexo-6102  "])))
   (is (= {:account "Assets:Checking:Demat",
-          :quantity "20"
-          :price {:quantity "10.15"
+          :quantity 20.0
+          :price {:quantity 10.15
                   :commodity "INR"}
           :commodity "NISCF_GG"
           :memo ["Test"]}
@@ -25,8 +25,8 @@
           ["Assets:Checking:Demat  20 NISCF_GG @ 10.15 INR"
            "; Test"])))
   (is (= {:account "Assets:Checking:Demat",
-          :quantity "35.924",
-          :price {:quantity "139.1762"
+          :quantity 35.924,
+          :price {:quantity 139.1762
                   :commodity "INR"}
           :memo ["Test"],
           :commodity "NISCF_GG"}
@@ -39,7 +39,7 @@
           :date "2024/01/02",
           :payee "Swiggy",
           :postings [{:account "Assets:Checking:Sodexo-6102",
-                      :quantity "-242.0",
+                      :quantity -242.0,
                       :commodity "INR"}
                      {:account "Expenses:Food"}],
           :tags nil}

@@ -3,9 +3,9 @@
             [in.arthya.util.interface :as util]))
 
 (deftest parse-currency-from-string-test
-  (is (= 0.0
+  (is (= nil
          (util/parse-currency "")))
-  (is (= 0.0
+  (is (= nil
          (util/parse-currency nil)))
   (is (= 0.0
          (util/parse-currency 0.0)))

@@ -18,12 +18,12 @@
 
 (defn parse-currency
   "Ensures to return currency as double value.
-   Returns 0.0 in case of nil or empty string.
+   Returns nil in case for empty value
   "
   [s]
   (cond
     (instance? Number s) (double s)
-    (or (nil? s) (empty? (str/trim s))) 0.0
+    (empty? s) nil
     :else (let [cleaned (-> s
                             (str/replace #"[^\d.-]+" "") ; Allow digits, dot, and minus sign
                             (str/replace #"\.$" ""))
