@@ -6,14 +6,11 @@
 (defn ->transaction
   "Create hledger style transactions.
   If provided with xaccount value will create balanced transaction with two postings"
-  [{:keys [memo quantity xaccount]
+  [{:keys [quantity xaccount]
     :as transaction}]
   (merge
    (select-keys transaction
-                [:date :payee :tags])
-   (when memo
-     {:memo (->> (str/split-lines memo)
-                    (map str/trim))})
+                [:date :payee :memo :tags])
    {:postings (remove nil?
                       [(merge
                         (util/create-map [:quantity] [quantity])
@@ -30,8 +27,7 @@
 
 (defn memo->str [memo]
   (str "\n" (space 4) "; "
-       (->> memo
-            (str/join (str "\n" (space 4) "; ")))))
+       memo))
 
 (defn price->str [{:keys [quantity commodity]}]
   (str quantity " " commodity))

@@ -32,14 +32,13 @@
       (subs 1)
       str/trim))
 
-
 (defn posting-price [price]
   (let [[quantity commodity] price]
     (util/create-map [:quantity :commodity]
                      [(util/parse-currency quantity) commodity])))
 
 (defn ->posting [element]
-  (let [[posting & memos] element
+  (let [[posting & memo] element
         [account r] (str/split (str/trim posting) #"\s\s+" 2)
         [quantity commodity _ & price]
         (when r
@@ -47,7 +46,9 @@
         quantity (util/parse-currency quantity)]
     (util/create-map [:account :quantity :commodity :memo
                       :price]
-                     [account quantity commodity (map clean-memo memos)
+                     [account quantity commodity (->> memo
+                                                      (map clean-memo)
+                                                      (str/join "\n"))
                       (posting-price price)])))
 
 (defn group-items [lines]
@@ -67,4 +68,6 @@
                                  (map ->posting))}]
     (merge transaction accounts
            (util/create-map
-            [:memo] [(map clean-memo transaction-memos)]))))
+            [:memo] [(->> transaction-memos
+                          (map clean-memo)
+                          (str/join "\n"))]))))
