@@ -26,6 +26,7 @@
    ["innovative re"] "Bigbasket",
    ["jarin taj"] "Asma Maid",
    ["keerthi"] "Keerthi Triumph",
+   ["asai hospitality"] "Sante Cafe"
    ["melting moments"] "Melting Moments",
    ["mookambika"] "Udupi Garden",
    ["nataraj food"] "Nataraj Chole Bhature",
@@ -64,6 +65,7 @@
     "cafe vishala"
     "eating love"
     "panchamrut"
+    "sante cafe"
     "polar bear"
     "sumeru hotel"
     "pooja sunil makh"
@@ -111,6 +113,7 @@
    ["tailor"] "Expenses:Utilities"
    ["rent"] "Expenses:Utilities:Rent"
    ["open ai"] "Expenses:Education",
+   ["Devanshee"] "Liabilities:People:Devanshee"
    ["shoppy mart" "bigbasket" "grocery" "groceries"] "Expenses:Food:Groceries",
    ["stitch" "clothes iron" "iron clothes"] "Expenses:Utilities:Clothes",
    ["suma j"] "Expenses:Health:Medicine",
