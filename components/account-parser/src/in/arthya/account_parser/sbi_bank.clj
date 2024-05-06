@@ -17,7 +17,7 @@
                   (get row "Ref No./Cheque No."))
         debit (util/parse-currency (get row "Debit"))
         credit (util/parse-currency (get row "Credit"))
-        amount (if (or (= 0 debit) (= 0.0 debit))
+        amount (if (or (nil? debit) (= 0 debit) (= 0.0 debit))
                  credit
                  (* -1 debit))]
     {:date date
