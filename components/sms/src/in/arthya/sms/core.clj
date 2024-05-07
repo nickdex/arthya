@@ -64,14 +64,14 @@
                         nil))
            :date (imessage-date/get-local-time date)}))))
 
-(defn process-messages [extractor-map messages]
-  (for [msg messages]
+(defn process-messages [messages]
+  (for [message messages]
     (try
-      (let [matched-fn (first (keep (fn [[k v]]
-                                      (when (util/includes-any? msg [k])
-                                        v))
-                                    extractor-map))]
-        (when matched-fn
-          (matched-fn msg)))
-      (catch Exception _
-        (prn "Error: " msg)))))
+      (let [method-key (some (fn [[pattern extractor-fn]]
+                               (when (util/includes-any? message [pattern])
+                                 extractor-fn))
+                             extractor/extractor-map)]
+        (when method-key
+          (extractor/extract message method-key)))
+      (catch Exception e
+        (prn "Error: " e message)))))
