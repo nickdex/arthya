@@ -15,6 +15,7 @@
    ["appleservices"] "Apple LLC",
    ["avirmukhi enterprises"] "Titan Eye Plus",
    ["better batter"] "Better Batter",
+   ["godhani rajiv"] "Adhya Shakti",
    ["bookmyshow"] "BookMyShow",
    ["cafe vishala"] "Cafe Vishala",
    ["chatgpt" "openai"] "Open AI Inc",
@@ -65,6 +66,7 @@
     "cafe vishala"
     "eating love"
     "panchamrut"
+    "adhya shakti"
     "sante cafe"
     "polar bear"
     "sumeru hotel"
