@@ -2,7 +2,8 @@
   (:require
    [clj-time.coerce :as c]
    [clj-time.format :as f]
-   [clj-time.core :as time]))
+   [clj-time.core :as time]
+   [tick.core :as t]))
 
 (def timestamp-factor 1000000000) ;; Nanoseconds
 
@@ -12,6 +13,7 @@
    1000))
 
 (defn get-local-time
+  "Converts date-stamp to a local date string"
   ([date-stamp] (get-local-time date-stamp (get-offset)))
   ([date-stamp offset]
    (try
@@ -23,3 +25,15 @@
        (f/unparse formatter instant))
      (catch Exception e
        (throw (ex-info "Invalid timestamp" {:date-stamp date-stamp}))))))
+
+(defn date-string-to-date-stamp
+  "Converts a local date string to a date stamp"
+  [date-str]
+  (-> date-str
+      (str "T00:00:00")
+      t/date-time
+      t/instant
+      t/long
+      (- (get-offset))
+      (* timestamp-factor)
+      #_()))
