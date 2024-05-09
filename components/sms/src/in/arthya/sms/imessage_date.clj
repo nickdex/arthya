@@ -26,7 +26,7 @@
      (catch Exception e
        (throw (ex-info "Invalid timestamp" {:date-stamp date-stamp}))))))
 
-(defn date-string-to-date-stamp
+(defn ->epoch
   "Converts a local date string to a date stamp"
   [date-str]
   (-> date-str
