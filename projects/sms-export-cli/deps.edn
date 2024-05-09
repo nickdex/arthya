@@ -1,4 +1,8 @@
-{:deps {poly/cli {:local/root "../../bases/cli"}
+{:deps {poly/hledger {:local/root "../../components/hledger"}
+        poly/sms {:local/root "../../components/sms"}
+        poly/util {:local/root "../../components/util"}
+        poly/inference-engine {:local/root "../../components/inference-engine"}
+        poly/cli {:local/root "../../bases/cli"}
         org.clojure/clojure {:mvn/version "1.11.1"}}
 
  :aliases {:test {:extra-paths []
