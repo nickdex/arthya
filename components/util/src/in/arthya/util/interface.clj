@@ -35,7 +35,7 @@
 
    Options:
    - :input - Specifies input date format. Defaults to dd/MM/yyyy
-   - :ouput - Specifies input date format. Defaults to yyyy/MM/dd"
+   - :ouput - Specifies input date format. Defaults to yyyy-MM-dd"
   ([date-str] (fix-date date-str nil))
   ([date-str opts]
    (date/fix-date date-str opts)))
@@ -57,3 +57,13 @@
 (defn title-case [s]
   (when s
     (str/join " " (map #(str/capitalize %) (str/split s #"\s+")))))
+
+(defn before?
+  "Does x date comes before y"
+  [x y]
+  (date/before? x y))
+
+(defn after?
+  "Does x date comes after y"
+  [x y]
+  (date/after? x y))

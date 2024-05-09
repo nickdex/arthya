@@ -27,15 +27,15 @@
          (util/parse-currency "11,211.33 Cr."))))
 
 (deftest fix-date-test
-  (is (= "2024/09/11"
+  (is (= "2024-09-11"
          (util/fix-date "11/09/2024")))
-  (is (= "2024/01/11"
+  (is (= "2024-01-11"
          (util/fix-date "11/01/2024")))
-  (is (= "2024/01/01"
+  (is (= "2024-01-01"
          (util/fix-date "01-JAN-2024" {:input "dd-MMM-yyyy"})))
-  (is (= "2024/01/02"
+  (is (= "2024-01-02"
          (util/fix-date "2 Jan 2024" {:input "d MMM yyyy"})))
-  (is (= "2024/09/02"
+  (is (= "2024-09-02"
          (util/fix-date "2 Sep 2024" {:input "d MMM yyyy"}))))
 
 (deftest create-map-test
