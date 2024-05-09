@@ -4,5 +4,5 @@
 
 (defn read-sms
   "Reads all messages from the database"
-  [file-path]
-  (core/read-sms file-path))
+  []
+  (core/read-sms))

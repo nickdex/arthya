@@ -75,3 +75,23 @@
           (extractor/extract message method-key)))
       (catch Exception e
         (prn "Error: " e message)))))
+
+(defn read-sms []
+  (->>
+   messages
+   (filter #(util/includes-any? % ["spent"
+                                   "debit"
+                                          ;; "refund"
+                                   "processed"
+                                   "credit"]))
+   (remove #(util/includes-any? % ["otp"]))
+          ;; (filter #(util/includes-any? % [
+          ;;                                 ;; "Rs"
+          ;;                                ;; "USD"
+          ;;                                "INR"
+          ;;                                 ]))
+   (sort-by :date)
+   reverse
+   (map :text)
+   process-messages
+   (remove nil?)))
