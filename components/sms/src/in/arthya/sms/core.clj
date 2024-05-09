@@ -46,15 +46,18 @@
     (when text
       (str/replace text "�" ""))))
 
-(defn messages [{:keys [after]}]
+(defn messages [{:keys [after limit]
+                 :or {limit 100}}]
   (->>
    (t2/select
     [:model/message
      :attributedbody
      :date
      :rowid]
-    {:where [:>= :date after]
-     :order-by [[:date :desc]]})
+    (merge
+     (when after {:where [:>= :date (imessage-date/->epoch after)]})
+     {:order-by [[:date :desc]]
+      :limit limit}))
    (remove #(nil? (:attributedbody %)))
    (map (fn [{:keys [attributedbody
                      rowid
@@ -77,20 +80,18 @@
       (catch Exception e
         (prn "Error: " e message)))))
 
-(defn read-sms [{:keys [after]}]
-  (->>
-   (messages {:after (imessage-date/->epoch after)})
-   (filter #(util/includes-any? % ["spent"
-                                   "debit"
+(defn read-sms [{:keys [filter-kw remove-kw]
+                 :or {filter-kw ["spent"
+                                 "debit"
                                           ;; "refund"
-                                   "processed"
-                                   "credit"]))
-   (remove #(util/includes-any? % ["otp"]))
-          ;; (filter #(util/includes-any? % [
-          ;;                                 ;; "Rs"
-          ;;                                ;; "USD"
-          ;;                                "INR"
-          ;;                                 ]))
+                                 "processed"
+                                 "credit"]
+                      remove-kw ["otp"]}
+                 :as opts}]
+  (->>
+   (messages opts)
+   (filter #(util/includes-any? % filter-kw))
+   (remove #(util/includes-any? % remove-kw))
    (sort-by :date)
    reverse
    (map :text)
